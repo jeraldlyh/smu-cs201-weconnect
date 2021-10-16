@@ -1,4 +1,4 @@
-import { MdOutlineRateReview } from "react-icons/md"
+import { FaUserFriends, FaRegHandPeace } from "react-icons/fa"
 import { BiWinkSmile } from "react-icons/bi"
 import { AiOutlineStar } from "react-icons/ai"
 import { TiTickOutline } from "react-icons/ti"
@@ -14,22 +14,27 @@ const ProfileCard = () => {
                 <div className="uppercase font-bold">Name</div>
                 <div className="font-semibold">Description</div>
                 <div className="flex w-full justify-between">
+                    {/* Fans Attribute */}
                     <div className="flex flex-col items-center">
-                        <MdOutlineRateReview />
+                        <FaUserFriends />
                         1
                     </div>
+                    {/* Funny Attribute */}
                     <div className="flex flex-col items-center">
                         <BiWinkSmile />
                         1
                     </div>
+                    {/* Cool Attribute */}
                     <div className="flex flex-col items-center">
-                        <MdOutlineRateReview />
+                        <FaRegHandPeace />
                         1
                     </div>
+                    {/* Average Star Attribute */}
                     <div className="flex flex-col items-center">
                         <AiOutlineStar />
                         1
                     </div>
+                    {/* Useful Attribute */}
                     <div className="flex flex-col items-center">
                         <TiTickOutline />
                         1

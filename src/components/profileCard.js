@@ -5,7 +5,7 @@ import { TiTickOutline } from "react-icons/ti"
 
 const ProfileCard = () => {
     return (
-        <div className="flex w-full border-2 border-white rounded-3xl overflow-hidden">
+        <div className="flex w-1/4 border-2 border-white rounded-3xl overflow-hidden">
             {/* Profile Image */}
             <img className="w-1/3 h-full object-cover" src="https://picsum.photos/200/" />
 

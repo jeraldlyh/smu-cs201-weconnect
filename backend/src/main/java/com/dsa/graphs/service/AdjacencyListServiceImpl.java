@@ -1,12 +1,14 @@
 package com.dsa.graphs.service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.dsa.graphs.models.AdjacencyListDTO;
 import com.dsa.graphs.models.User;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,19 +27,21 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
     }
 
     @Override
-    public void createAdjacencyList() {
+    public AdjacencyListDTO createAdjacencyList() {
         Set<User> nodes = nodeService.getNodes();
-        System.out.println(nodes.size());
         LocalDateTime start = LocalDateTime.now();
 
         createNodes(nodes);
         createEdges(nodes);
 
         LocalDateTime end = LocalDateTime.now();
+        long timeTaken = ChronoUnit.MILLIS.between(start, end);
 
-        System.out.println(adjacencyList.size());
+        AdjacencyListDTO adjacencyListDTO = new AdjacencyListDTO(adjacencyList, timeTaken);
+        return adjacencyListDTO;
     }
 
+    @Override
     public void createNodes(Set<User> nodes) {
         for (User user : nodes) {
             String friends = user.getFriends();
@@ -77,5 +81,13 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
     @Override
     public void addNode(String userID) {
         adjacencyList.put(userID, new ArrayList<String>());
+    }
+
+    @Override
+    public Map<String, List<String>> getAdjacencyList() {
+        if (adjacencyList.size() == 0) {
+            createAdjacencyList();
+        }
+        return adjacencyList;
     }
 }

@@ -31,7 +31,7 @@ for (var key in data) {
         nodes.add(userWithData)
     }
     // Add dummy nodes for user's friends
-    userFriends.forEach(friendID => nodes.add(new User(friendID)))
+    friends.forEach(friendID => nodes.add(new User(friendID)))
 }
 
 export default nodes

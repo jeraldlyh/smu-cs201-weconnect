@@ -2,6 +2,7 @@ import data from "./data.json"
 import moment from "moment"
 import nodes from "./node"
 
+
 export default class AdjacencyList {
     constructor() {
         this.adjacencyList = new Map()

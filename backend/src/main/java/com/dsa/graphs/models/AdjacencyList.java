@@ -18,19 +18,23 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class AdjacencyList {
-    private Map<User, List<User>> adjacencyList;
+    private Map<String, List<String>> adjacencyList;
 
     public AdjacencyList() {
         this.adjacencyList = new HashMap<>();
     }
 
     // Add bidirectional edge
-    public void addEdge(User fromUser, User toUser) {
+    public void addEdge(String fromUser, String toUser) {
         adjacencyList.get(fromUser).add(toUser);
         adjacencyList.get(toUser).add(fromUser);
     }
 
-    public void addNode(User user) {
-        adjacencyList.put(user, new ArrayList<User>());
+    public void addNode(String user) {
+        adjacencyList.put(user, new ArrayList<String>());
+    }
+
+    public int getSize() {
+        return adjacencyList.size();
     }
 }

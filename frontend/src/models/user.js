@@ -12,9 +12,9 @@ export default class User {
         this.stars = stars
     }
 
-    // Overloaded constructor for users that only exist in friend list but does
-    // not contain data for attributes
-    constructor(id) {
-        this.id = id
-    }
+    // // Overloaded constructor for users that only exist in friend list but does
+    // // not contain data for attributes
+    // constructor(id) {
+    //     this.id = id
+    // }
 }

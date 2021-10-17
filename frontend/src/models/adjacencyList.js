@@ -33,6 +33,7 @@ export default class AdjacencyList {
         }
 
         const endTime = moment(new Date())      // End timer
+        console.log(this.adjacencyList.size)
         return moment.duration(endTime.diff(startTime))
     }
 

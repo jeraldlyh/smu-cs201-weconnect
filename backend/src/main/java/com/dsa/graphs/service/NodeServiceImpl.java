@@ -34,25 +34,18 @@ public class NodeServiceImpl implements NodeService {
             File resource = new ClassPathResource("data.json").getFile();
             BufferedReader reader = new BufferedReader(new FileReader(resource));
             User[] users = gson.fromJson(reader, User[].class);
-            
-            for (User user: users) {
-                User userWithoutData = new User(user.getUser_id());
 
-                String[] friends = user.getFriends().split(", ");           // Friends in json are combined with a comma
-                
-                // Checks if user was previously a dummy node that was added
-                // Update the node with actual user attributes
-                if (nodes.contains(userWithoutData)) {      // contains() is O(1) time complexity
-                    nodes.remove(userWithoutData);          // remove() is O(1) time complexity
-                    nodes.add(user);                        // add() is O(1) time complexity
-                }
+            for (User user : users) {
+                // Friends in json are combined with a comma
+                String[] friends = user.getFriends().split(", ");
+
+                nodes.add(user); // add() is O(1) time complexity
 
                 // Add dummy nodes for user's friends
-                for (String friendID: friends) {
+                for (String friendID : friends) {
                     nodes.add(new User(friendID));
                 }
             }
-            
         } catch (IOException e) {
             LOGGER.warn("------ File not found");
         } catch (Exception e) {

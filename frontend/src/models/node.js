@@ -6,32 +6,12 @@ const nodes = new Set()
 
 for (var key in data) {
     const userData = data[key]
-    const userID = userData["user_id"]
+    const fromUser = userData["user_id"]
 
-    const userWithoutData = new User(userID)
-    const friends = userData["friends"].split(",")      // Friends data are combined with a comma
-
-    // has() method takes O(1) time complexity
-    // Checks if user was previously a dummy node that was added
-    // Update the node with actual user attributes
-    if (nodes.has(userWithoutData)) {
-        nodes.delete(userWithoutData)
-        const userWithData = new User(
-            userID,
-            userData["name"],
-            userData["review_count"],
-            userData["yelping_since"],
-            userData["useful"],
-            userData["funny"],
-            userData["cool"],
-            friends,
-            userData["fans"],
-            userData["average_stars"]
-        )
-        nodes.add(userWithData)
-    }
-    // Add dummy nodes for user's friends
-    friends.forEach(friendID => nodes.add(new User(friendID)))
+    // Friends data are combined with a comma
+    const userFriends = userData["friends"].split(",")
+    userFriends.forEach(friend => nodes.add(friend))
+    nodes.add(fromUser)
 }
 
 export default nodes

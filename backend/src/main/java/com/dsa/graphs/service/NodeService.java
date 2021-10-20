@@ -1,10 +1,11 @@
 package com.dsa.graphs.service;
 
-import java.util.Set;
+import java.util.Map;
 
 import com.dsa.graphs.models.User;
 
 public interface NodeService {
     void generateNodes();
-    Set<User> getNodes();
+    Map<User, Object> getNodes();
+    User getNode();
 }

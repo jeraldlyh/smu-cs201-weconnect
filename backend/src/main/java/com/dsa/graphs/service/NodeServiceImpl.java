@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.dsa.graphs.models.User;
 import com.google.gson.Gson;
@@ -19,9 +19,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NodeServiceImpl implements NodeService {
-    private Set<User> nodes = new HashSet<>();
-    private Gson gson;
     private static final Logger LOGGER = LogManager.getLogger(AdjacencyListServiceImpl.class);
+
+    /**
+     * Use a map without values instead of a set because it's faster to search for an element
+     * HashSet -> O(n)
+     * HashMap -> O(1)
+     */
+    
+    private Map<User, Object> nodes = new HashMap<>();
+    private Gson gson;
 
     public NodeServiceImpl(Gson gson) {
         this.gson = gson;
@@ -39,11 +46,11 @@ public class NodeServiceImpl implements NodeService {
                 // Friends in json are combined with a comma
                 String[] friends = user.getFriends().split(", ");
 
-                nodes.add(user); // add() is O(1) time complexity
+                nodes.put(user, null); // put() is O(1) time complexity
 
                 // Add dummy nodes for user's friends
                 for (String friendID : friends) {
-                    nodes.add(new User(friendID));
+                    nodes.put(new User(friendID), null);
                 }
             }
         } catch (IOException e) {
@@ -54,7 +61,12 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public Set<User> getNodes() {
+    public Map<User, Object> getNodes() {
         return nodes;
+    }
+
+    @Override
+    public User getNode() {
+        return null;
     }
 }

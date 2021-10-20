@@ -1,7 +1,7 @@
 [
     {
         "user_id": "asdasdzxczxczxcz",
-        "name": "Kat",
+        "name": "Apple",
         "review_count": 987,
         "yelping_since": "2009-02-09 16:14:29",
         "useful": 7234,
@@ -13,13 +13,26 @@
     },
     {
         "user_id": "JnPIjvC0cmooNDfsa9BmXg",
-        "name": "Kat",
+        "name": "Pear",
         "review_count": 987,
         "yelping_since": "2009-02-09 16:14:29",
         "useful": 7234,
         "funny": 4722,
         "cool": 4035,
-        "friends": "asdasdzxczxczxcz",
+        "friends": "asdasdzxczxczxcz, zczcacasdasdq",
+        "fans": 420,
+        "average_stars": 3.77
+    }
+    ,
+    {
+        "user_id": "zczcacasdasdq",
+        "name": "Orange",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "",
         "fans": 420,
         "average_stars": 3.77
     }

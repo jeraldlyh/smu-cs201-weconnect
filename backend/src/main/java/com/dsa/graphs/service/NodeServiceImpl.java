@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.dsa.graphs.models.User;
@@ -37,16 +39,16 @@ public class NodeServiceImpl implements NodeService {
             File resource = new ClassPathResource("data.json").getFile();
             BufferedReader reader = new BufferedReader(new FileReader(resource));
             User[] users = gson.fromJson(reader, User[].class);
-            
+
             for (User user : users) {
                 // Friends in json are combined with a comma
                 String[] friends = user.getFriends().split(", ");
-                
+
                 nodes.add(user); // add() is O(1) time complexity
-                
+
                 // Add dummy nodes for user's friends
                 for (String friendID : friends) {
-                    if (!friendID.isEmpty()) {              // Prevent adding empty nodes
+                    if (!friendID.isEmpty()) { // Prevent adding empty nodes
                         nodes.add(new User(friendID.strip()));
                     }
                 }
@@ -65,8 +67,8 @@ public class NodeServiceImpl implements NodeService {
     }
 
     /**
-     * This method costs O(n) time complexity since the worst case is where the
-     * user exist at the last element of the set
+     * This method costs O(n) time complexity since the worst case is where the user
+     * exist at the last element of the set
      */
     @Override
     public User getNode(String userId) {
@@ -79,5 +81,17 @@ public class NodeServiceImpl implements NodeService {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<User> getListOfNodes(String userId) {
+        User targetUser = getNode(userId);
+        String[] targetUserFriendIds = targetUser.getFriends().split(",");
+        List<User> targetUserFriends = new ArrayList<>();
+
+        for (String friendId : targetUserFriendIds) {
+            targetUserFriends.add(getNode(friendId.strip()));
+        }
+        return targetUserFriends;
     }
 }

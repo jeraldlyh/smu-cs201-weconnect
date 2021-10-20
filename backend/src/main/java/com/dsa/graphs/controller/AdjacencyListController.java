@@ -1,12 +1,13 @@
 package com.dsa.graphs.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.dsa.graphs.models.AddFriendDTO;
 import com.dsa.graphs.models.AdjacencyListDTO;
+import com.dsa.graphs.models.FriendSuggestionDTO;
 import com.dsa.graphs.service.AdjacencyListService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,14 +18,20 @@ public class AdjacencyListController {
         this.adjacencyListService = adjacencyListService;
     }
 
+    // Unsure why it returns size of array if AdjacencyList type is returned as a response
     @GetMapping("/test")
-    public Map<String, List<String>> getAdjacencyList() {
-        return adjacencyListService.getAdjacencyList();
+    public String getAdjacencyList() {
+        return adjacencyListService.getAdjacencyList().toString();
     }
 
     @GetMapping("/adjacency-list/create")
     public AdjacencyListDTO createAdjacencyList() {
         return adjacencyListService.createAdjacencyList();
+    }
+
+    @PostMapping("/adjacency-list")
+    public FriendSuggestionDTO addFriend(@RequestBody AddFriendDTO addFriendDTO) {
+        return adjacencyListService.getFriendSuggestionsByBfs(addFriendDTO.getFromUser(), addFriendDTO.getToUser());
     }
 
 }

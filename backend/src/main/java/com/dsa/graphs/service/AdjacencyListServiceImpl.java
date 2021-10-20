@@ -3,12 +3,16 @@ package com.dsa.graphs.service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
+import com.dsa.graphs.models.AdjacencyList;
 import com.dsa.graphs.models.AdjacencyListDTO;
+import com.dsa.graphs.models.FriendSuggestionDTO;
 import com.dsa.graphs.models.User;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,76 +22,115 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdjacencyListServiceImpl implements AdjacencyListService {
     private static final Logger LOGGER = LogManager.getLogger(AdjacencyListServiceImpl.class);
-    private Map<String, List<String>> adjacencyList = new HashMap<>();
 
+    private AdjacencyList adjacencyList;
     private NodeService nodeService;
 
-    public AdjacencyListServiceImpl(NodeService nodeService) {
+    public AdjacencyListServiceImpl(NodeService nodeService, AdjacencyList adjacencyList) {
         this.nodeService = nodeService;
+        this.adjacencyList = adjacencyList;
     }
 
     @Override
     public AdjacencyListDTO createAdjacencyList() {
+        // Check if adjacencyList has been previous created
+        if (adjacencyList.getSize() != 0) {
+            return new AdjacencyListDTO(adjacencyList, 0);
+        }
+
+        LOGGER.info("------ STARTING TO CREATE ADJACENCY LIST");
         Set<User> nodes = nodeService.getNodes();
         LocalDateTime start = LocalDateTime.now();
 
-        createNodes(nodes);
-        createEdges(nodes);
+        adjacencyList.createNodes(nodes);
+        adjacencyList.createEdges(nodes);
 
         LocalDateTime end = LocalDateTime.now();
         long timeTaken = ChronoUnit.MILLIS.between(start, end);
 
+        LOGGER.info("------ SUCCESSFULLY CREATED ADJACENCY LIST");
         AdjacencyListDTO adjacencyListDTO = new AdjacencyListDTO(adjacencyList, timeTaken);
         return adjacencyListDTO;
     }
 
     @Override
-    public void createNodes(Set<User> nodes) {
-        for (User user : nodes) {
-            String friends = user.getFriends();
-
-            if (friends != null) {
-                String[] listOfFriends = user.getFriends().split(",");
-
-                for (String friendID : listOfFriends) {
-                    addNode(friendID);
-                }
-            }
-            addNode(user.getUser_id());
-        }
-    }
-
-    @Override
-    public void createEdges(Set<User> nodes) {
-        for (User user : nodes) {
-            String friends = user.getFriends();
-
-            if (friends != null) {
-                String[] listOfFriends = user.getFriends().split(",");
-
-                for (String friendID : listOfFriends) {
-                    addEdge(user.getUser_id(), friendID);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void addEdge(String fromUser, String toUser) {
-        adjacencyList.get(fromUser).add(toUser);
-        adjacencyList.get(toUser).add(fromUser);
-    }
-
-    @Override
-    public void addNode(String userID) {
-        adjacencyList.put(userID, new ArrayList<String>());
-    }
-
-    @Override
-    public Map<String, List<String>> getAdjacencyList() {
-        if (adjacencyList.size() == 0) {
+    public AdjacencyList getAdjacencyList() {
+        if (adjacencyList.getSize() == 0) {
             createAdjacencyList();
         }
         return adjacencyList;
+    }
+
+    /**
+     * Modified BFS is required as the entire graph might possibly be disconnected as 
+     * there might be a case where not all the users are related to each other through
+     * some way or another. Instead of traversing from the starting node only, we'll traverse 
+     * every single unvisited node.
+     * 
+     * @param fromUser User specifying the request
+     * @param toUser Specified user that the caller wishes to add
+     * @param visted List that contains visited vertices
+     * @return List of suggested friends
+     */
+    public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser, List<String> visited) {
+        Queue<String> queue = new LinkedList<String>();     // Create a queue to store vertices that has an edge connected to current vertex and have yet to visit
+        int degreeOfRelationship = 0;                          // Create an integer to check how deep are the connections from the user to another specified user
+
+        visited.add(fromUser);
+        queue.add(fromUser);
+
+        LOGGER.info("------ STARTING BFS SEARCH");
+
+        while(queue.size() != 0) {
+            // Dequeue the vertex from the queue
+            String vertex = queue.poll();
+            System.out.println("Currently at: " + vertex);
+            LinkedList<String> adjacentVertices = adjacencyList.getNeighbours(vertex);
+
+            if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
+                Iterator<String> adjacentVerticesIter = adjacentVertices.listIterator();
+
+                while (adjacentVerticesIter.hasNext()) {
+                    String neighbour = adjacentVerticesIter.next();
+
+                    // Found the vertex that we're looking for in the graph
+                    if (toUser.equals(neighbour)) {
+                        LOGGER.info("------ FOUND USER: " + nodeService.getNode(toUser));
+                        return new FriendSuggestionDTO(nodeService.getListOfNodes(toUser), degreeOfRelationship);
+                    }
+
+                    // Check if neighbour has been previously visited to prevent an infinite recursion
+                    if (!visited.contains(neighbour)) {
+                        visited.add(neighbour);             // Ensure that neighbour will not be visited from its subsequent neighbours
+                        queue.add(neighbour);               // Add it into the queue to traverse later
+                    }
+                }
+            }
+            degreeOfRelationship++;
+        }
+        LOGGER.info("------ NO USER FOUND AT THE END OF BFS");
+        return null;
+    }
+
+    @Override
+    public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
+        createAdjacencyList();
+        System.out.println(adjacencyList.getAdjacencyList());
+
+        List<String> visited = new ArrayList<String>();        // Create a set to mark vertices that are visited
+        Map<String, LinkedList<String>> data = adjacencyList.getAdjacencyList();
+        FriendSuggestionDTO result = null;
+
+        for (String user: data.keySet()) {
+            if (!visited.contains(user)) {
+                result = getFriendSuggestionsByBfs(fromUser, toUser, visited);
+
+                if (result != null) {       // Exit once user has been found
+                    break;
+                }
+            }
+        }
+
+        return result;
     }
 }

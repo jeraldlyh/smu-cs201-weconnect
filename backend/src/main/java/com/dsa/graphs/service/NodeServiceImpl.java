@@ -4,8 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import com.dsa.graphs.models.User;
 import com.google.gson.Gson;
@@ -21,13 +22,7 @@ import org.springframework.stereotype.Service;
 public class NodeServiceImpl implements NodeService {
     private static final Logger LOGGER = LogManager.getLogger(AdjacencyListServiceImpl.class);
 
-    /**
-     * Use a map without values instead of a set because it's faster to search for an element
-     * HashSet -> O(n)
-     * HashMap -> O(1)
-     */
-    
-    private Map<User, Object> nodes = new HashMap<>();
+    private Set<User> nodes = new HashSet<>();
     private Gson gson;
 
     public NodeServiceImpl(Gson gson) {
@@ -46,11 +41,11 @@ public class NodeServiceImpl implements NodeService {
                 // Friends in json are combined with a comma
                 String[] friends = user.getFriends().split(", ");
 
-                nodes.put(user, null); // put() is O(1) time complexity
+                nodes.add(user); // add() is O(1) time complexity
 
                 // Add dummy nodes for user's friends
                 for (String friendID : friends) {
-                    nodes.put(new User(friendID), null);
+                    nodes.add(new User(friendID));
                 }
             }
         } catch (IOException e) {
@@ -61,12 +56,24 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public Map<User, Object> getNodes() {
+    public Set<User> getNodes() {
         return nodes;
     }
 
+    /**
+     * This method costs O(n) time complexity since the worst case is where the
+     * user exist at the last element of the set
+     */
     @Override
-    public User getNode() {
+    public User getNode(String userId) {
+        Iterator<User> users = nodes.iterator();
+
+        while (users.hasNext()) {
+            User currentUser = users.next();
+            if (currentUser.getUser_id().equals(userId)) {
+                return currentUser;
+            }
+        }
         return null;
     }
 }

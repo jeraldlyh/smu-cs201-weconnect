@@ -47,7 +47,7 @@ public class NodeServiceImpl implements NodeService {
                 // Add dummy nodes for user's friends
                 for (String friendID : friends) {
                     if (!friendID.isEmpty()) {              // Prevent adding empty nodes
-                        nodes.add(new User(friendID));
+                        nodes.add(new User(friendID.strip()));
                     }
                 }
             }

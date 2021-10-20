@@ -19,7 +19,9 @@ public class AdjacencyList {
                 String[] listOfFriends = user.getFriends().split(",");
 
                 for (String friendID : listOfFriends) {
-                    addEdge(user.getUser_id(), friendID);
+                    if (!friendID.isEmpty()) {          // Prevent adding empty edges
+                        addEdge(user.getUser_id().strip(), friendID.strip());
+                    }
                 }
             }
         }
@@ -34,11 +36,11 @@ public class AdjacencyList {
 
                 for (String friendID : listOfFriends) {
                     if (!friendID.isEmpty()) {          // Prevent adding empty vertices
-                        addNode(friendID);
+                        addNode(friendID.strip());
                     }
                 }
             }
-            addNode(user.getUser_id());
+            addNode(user.getUser_id().strip());
         }
     }
 

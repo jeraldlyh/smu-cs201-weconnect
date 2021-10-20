@@ -33,7 +33,9 @@ public class AdjacencyList {
                 String[] listOfFriends = user.getFriends().split(",");
 
                 for (String friendID : listOfFriends) {
-                    addNode(friendID);
+                    if (!friendID.isEmpty()) {          // Prevent adding empty vertices
+                        addNode(friendID);
+                    }
                 }
             }
             addNode(user.getUser_id());

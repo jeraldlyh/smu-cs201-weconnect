@@ -1,8 +1,7 @@
 package com.dsa.graphs.models;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AdjacencyList {
-    private Map<String, List<String>> adjacencyList = new HashMap<>();
+    private Map<String, LinkedList<String>> adjacencyList = new HashMap<>();
 
     public void createEdges(Set<User> nodes) {
         for (User user : nodes) {
@@ -47,7 +46,11 @@ public class AdjacencyList {
     }
 
     public void addNode(String userID) {
-        adjacencyList.put(userID, new ArrayList<String>());
+        adjacencyList.put(userID, new LinkedList<String>());
+    }
+
+    public LinkedList<String> getNeighbours(String user) {
+        return adjacencyList.get(user);
     }
 
     public int getSize() {
@@ -58,7 +61,7 @@ public class AdjacencyList {
     public String toString() {
         StringBuilder sb = new StringBuilder();     // More optimized way compared to String
 
-        for (Map.Entry<String, List<String>> user: adjacencyList.entrySet()) {
+        for (Map.Entry<String, LinkedList<String>> user: adjacencyList.entrySet()) {
             sb.append(user.getKey() + " ==> ");     // append() is O(1)
             sb.append(user.getValue() + "\n");
         }

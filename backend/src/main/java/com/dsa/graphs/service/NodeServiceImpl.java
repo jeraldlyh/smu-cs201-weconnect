@@ -47,17 +47,19 @@ public class NodeServiceImpl implements NodeService {
                 nodes.add(user); // add() is O(1) time complexity
 
                 // Add dummy nodes for user's friends
-                for (String friendID : friends) {
-                    if (!friendID.isEmpty()) { // Prevent adding empty nodes
-                        nodes.add(new User(friendID.strip()));
-                    }
-                }
+                // for (String friendId : friends) {
+                //     System.out.println("Contains " + friendId + " | " + nodes.contains(new User(friendId.strip())));
+                //     if (!friendId.isEmpty() && !nodes.contains(new User(friendId.strip()))) { // Prevent adding empty nodes
+                //         nodes.add(new User(friendId.strip()));
+                //     }
+                // }
             }
+            System.out.println(nodes);
             LOGGER.info("------ SUCCESSFULLY GENERATED NODES");
         } catch (IOException e) {
-            LOGGER.warn("------ File not found");
+            LOGGER.warn("------ FILE NOT FOUND");
         } catch (Exception e) {
-            LOGGER.warn("------ Unexpected error: " + e.getMessage());
+            LOGGER.warn("------ UNEXPECTED ERROR: " + e.getMessage());
         }
     }
 
@@ -86,10 +88,16 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public List<User> getListOfNodes(String userId) {
         User targetUser = getNode(userId);
-        String[] targetUserFriendIds = targetUser.getFriends().split(",");
+        String targetUserFriendIds = targetUser.getFriends();
+
+        if (targetUserFriendIds == null || targetUserFriendIds.isEmpty()) {
+            return null;
+        }
+
+        String[] targetUserFriendIdsList = targetUserFriendIds.split(",");
         List<User> targetUserFriends = new ArrayList<>();
 
-        for (String friendId : targetUserFriendIds) {
+        for (String friendId : targetUserFriendIdsList) {
             targetUserFriends.add(getNode(friendId.strip()));
         }
         return targetUserFriends;

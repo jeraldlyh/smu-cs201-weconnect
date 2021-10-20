@@ -2,12 +2,10 @@ package com.dsa.graphs.service;
 
 import com.dsa.graphs.models.AdjacencyList;
 import com.dsa.graphs.models.AdjacencyListDTO;
+import com.dsa.graphs.models.FriendSuggestionDTO;
 
 public interface AdjacencyListService {
     AdjacencyListDTO createAdjacencyList();
-    // void createNodes(Set<User> nodes);
-    // void createEdges(Set<User> nodes);
-    // void addEdge(String fromUser, String toUser);
-    // void addNode(String user);
     AdjacencyList getAdjacencyList();
+    FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser);
 }

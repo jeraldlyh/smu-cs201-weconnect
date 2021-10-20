@@ -2,6 +2,7 @@ package com.dsa.graphs.controller;
 
 import com.dsa.graphs.models.AddFriendDTO;
 import com.dsa.graphs.models.AdjacencyListDTO;
+import com.dsa.graphs.models.FriendSuggestionDTO;
 import com.dsa.graphs.models.User;
 import com.dsa.graphs.service.AdjacencyListService;
 
@@ -30,8 +31,8 @@ public class AdjacencyListController {
     }
 
     @PostMapping("/adjacency-list")
-    public User addFriend(@RequestBody AddFriendDTO addFriendDTO) {
-        return adjacencyListService.getUserByBfs(addFriendDTO.getFromUser(), addFriendDTO.getToUser());
+    public FriendSuggestionDTO addFriend(@RequestBody AddFriendDTO addFriendDTO) {
+        return adjacencyListService.getFriendSuggestionsByBfs(addFriendDTO.getFromUser(), addFriendDTO.getToUser());
     }
 
 }

@@ -19,7 +19,7 @@
         "useful": 7234,
         "funny": 4722,
         "cool": 4035,
-        "friends": "asdasdzxczxczxcz, zczcacasdasdq",
+        "friends": "asdasdzxczxczxcz, zczcacasdasdq, test",
         "fans": 420,
         "average_stars": 3.77
     }
@@ -33,6 +33,18 @@
         "funny": 4722,
         "cool": 4035,
         "friends": "",
+        "fans": 420,
+        "average_stars": 3.77
+    },
+    {
+        "user_id": "abcd",
+        "name": "Peep",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "zczcacasdasdq",
         "fans": 420,
         "average_stars": 3.77
     }

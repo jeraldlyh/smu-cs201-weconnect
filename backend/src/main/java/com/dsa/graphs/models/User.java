@@ -13,7 +13,7 @@ import lombok.ToString;
 @Component
 @Getter
 @Setter
-@ToString
+// @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 // @EqualsAndHashCode
@@ -46,5 +46,10 @@ public class User {
         }
         User user = (User)o;
         return user.getUser_id().equals(this.user_id);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

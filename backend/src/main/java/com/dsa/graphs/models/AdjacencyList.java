@@ -15,12 +15,13 @@ public class AdjacencyList {
         for (User user : nodes) {
             String friends = user.getFriends();
 
-            if (friends != null) {      // Checks if user has friends
+            if (friends != null) { // Checks if user has friends
                 String[] listOfFriends = user.getFriends().split(",");
 
-                for (String friendID : listOfFriends) {
-                    if (!friendID.isEmpty()) {          // Prevent adding empty edges
-                        addEdge(user.getUser_id().strip(), friendID.strip());
+                for (String friendId : listOfFriends) {
+                    // Prevent adding empty edges and nodes that does not exist
+                    if (!friendId.isEmpty()) {
+                        addEdge(user.getUser_id().strip(), friendId.strip());
                     }
                 }
             }
@@ -28,25 +29,35 @@ public class AdjacencyList {
     }
 
     public void createNodes(Set<User> nodes) {
+        // for (User user : nodes) {
+        //     String friends = user.getFriends();
+
+        //     if (friends != null) {
+        //         String[] listOfFriends = user.getFriends().split(",");
+
+        //         for (String friendID : listOfFriends) {
+        //             if (!friendID.isEmpty()) { // Prevent adding empty vertices
+        //                 addNode(friendID.strip());
+        //             }
+        //         }
+        //     }
+        //     addNode(user.getUser_id().strip());
+        // }
         for (User user : nodes) {
-            String friends = user.getFriends();
-
-            if (friends != null) {
-                String[] listOfFriends = user.getFriends().split(",");
-
-                for (String friendID : listOfFriends) {
-                    if (!friendID.isEmpty()) {          // Prevent adding empty vertices
-                        addNode(friendID.strip());
-                    }
-                }
-            }
             addNode(user.getUser_id().strip());
         }
     }
 
     public void addEdge(String fromUser, String toUser) {
-        adjacencyList.get(fromUser).add(toUser);
-        adjacencyList.get(toUser).add(fromUser);
+        LinkedList<String> fromUserFriends = adjacencyList.get(fromUser);
+        if (fromUserFriends != null) {
+            fromUserFriends.add(toUser);
+        }
+
+        LinkedList<String> toUserFriends = adjacencyList.get(toUser);
+        if (toUserFriends != null) {
+            toUserFriends.add(fromUser);
+        }
     }
 
     public void addNode(String userID) {
@@ -67,10 +78,10 @@ public class AdjacencyList {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();     // More optimized way compared to String
+        StringBuilder sb = new StringBuilder(); // More optimized way compared to String
 
-        for (Map.Entry<String, LinkedList<String>> user: adjacencyList.entrySet()) {
-            sb.append(user.getKey() + " ==> ");     // append() is O(1)
+        for (Map.Entry<String, LinkedList<String>> user : adjacencyList.entrySet()) {
+            sb.append(user.getKey() + " ==> "); // append() is O(1)
             sb.append(user.getValue() + "\n");
         }
         return sb.toString();

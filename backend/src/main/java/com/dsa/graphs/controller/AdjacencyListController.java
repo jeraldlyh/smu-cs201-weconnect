@@ -3,7 +3,6 @@ package com.dsa.graphs.controller;
 import com.dsa.graphs.models.AddFriendDTO;
 import com.dsa.graphs.models.AdjacencyListDTO;
 import com.dsa.graphs.models.FriendSuggestionDTO;
-import com.dsa.graphs.models.User;
 import com.dsa.graphs.service.AdjacencyListService;
 
 import org.springframework.web.bind.annotation.GetMapping;

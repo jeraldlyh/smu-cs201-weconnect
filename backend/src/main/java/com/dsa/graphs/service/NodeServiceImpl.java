@@ -33,21 +33,23 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public void generateNodes() {
         try {
+            LOGGER.info("------ STARTING TO GENERATE NODES");
             File resource = new ClassPathResource("data.json").getFile();
             BufferedReader reader = new BufferedReader(new FileReader(resource));
             User[] users = gson.fromJson(reader, User[].class);
-
+            
             for (User user : users) {
                 // Friends in json are combined with a comma
                 String[] friends = user.getFriends().split(", ");
-
+                
                 nodes.add(user); // add() is O(1) time complexity
-
+                
                 // Add dummy nodes for user's friends
                 for (String friendID : friends) {
                     nodes.add(new User(friendID));
                 }
             }
+            LOGGER.info("------ SUCCESSFULLY GENERATED NODES");
         } catch (IOException e) {
             LOGGER.warn("------ File not found");
         } catch (Exception e) {

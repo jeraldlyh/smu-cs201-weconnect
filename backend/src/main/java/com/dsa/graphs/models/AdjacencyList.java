@@ -57,6 +57,10 @@ public class AdjacencyList {
         return adjacencyList.size();
     }
 
+    public Map<String, LinkedList<String>> getAdjacencyList() {
+        return adjacencyList;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();     // More optimized way compared to String

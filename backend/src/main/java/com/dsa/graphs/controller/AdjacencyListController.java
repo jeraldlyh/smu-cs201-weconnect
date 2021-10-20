@@ -1,8 +1,6 @@
 package com.dsa.graphs.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.dsa.graphs.models.AdjacencyList;
 import com.dsa.graphs.models.AdjacencyListDTO;
 import com.dsa.graphs.service.AdjacencyListService;
 
@@ -17,9 +15,10 @@ public class AdjacencyListController {
         this.adjacencyListService = adjacencyListService;
     }
 
+    // Unsure why it returns size of array if AdjacencyList type is returned as a response
     @GetMapping("/test")
-    public Map<String, List<String>> getAdjacencyList() {
-        return adjacencyListService.getAdjacencyList();
+    public String getAdjacencyList() {
+        return adjacencyListService.getAdjacencyList().toString();
     }
 
     @GetMapping("/adjacency-list/create")

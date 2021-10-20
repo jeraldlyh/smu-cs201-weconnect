@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-GraphsApplication<graphs>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.dsa.graphs.GraphsApplication",
+            "projectName": "graphs",
+            "args": ""
+        }
+    ]
+}

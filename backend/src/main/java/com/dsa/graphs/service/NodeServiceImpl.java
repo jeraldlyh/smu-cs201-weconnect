@@ -42,7 +42,7 @@ public class NodeServiceImpl implements NodeService {
 
             for (User user : users) {
                 // Friends in json are combined with a comma
-                String[] friends = user.getFriends().split(", ");
+                // String[] friends = user.getFriends().split(", ");
 
                 nodes.add(user); // add() is O(1) time complexity
 
@@ -71,6 +71,8 @@ public class NodeServiceImpl implements NodeService {
     /**
      * This method costs O(n) time complexity since the worst case is where the user
      * exist at the last element of the set
+     * @param userId String that represents user ID
+     * @return User object that is being represented as a node
      */
     @Override
     public User getNode(String userId) {
@@ -85,6 +87,12 @@ public class NodeServiceImpl implements NodeService {
         return null;
     }
 
+    /**
+     * This method costs O(n) time complexity since the worst case is where
+     * an user is friends with all other users (i.e. one vertex contains n edges)
+     * @param userId String that represents user ID
+     * @return List of user objects that is being represented as nodes
+     */
     @Override
     public List<User> getListOfNodes(String userId) {
         User targetUser = getNode(userId);

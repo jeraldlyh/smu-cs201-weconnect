@@ -19,7 +19,7 @@ public class AdjacencyList {
                 String[] listOfFriends = user.getFriends().split(",");
 
                 for (String friendId : listOfFriends) {
-                    // Prevent adding empty edges and nodes that does not exist
+                    // Prevent adding empty edges
                     if (!friendId.isEmpty()) {
                         addEdge(user.getUser_id().strip(), friendId.strip());
                     }

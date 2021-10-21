@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import BoxCard from "../components/boxCard"
 import ProfileCard from "../components/profileCard"
 import { deleteAdjacencyList, generateAdjacencyList } from "src/actions/adjacencyList"
+import { deleteAdjacencyMatrix, generateAdjacencyMatrix } from "src/actions/adjacencyMatrix"
 
 
 export default function Home() {
@@ -53,6 +54,9 @@ export default function Home() {
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">
                     <BoxCard
                         title="Adjacency Matrix"
+                        generate={generateAdjacencyMatrix}
+                        remove={deleteAdjacencyMatrix}
+                        setStatus={setAdjacencyMatrixStatus}
                     />
                 </div>
             </div>

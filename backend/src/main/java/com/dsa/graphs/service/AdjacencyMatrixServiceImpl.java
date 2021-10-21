@@ -184,4 +184,11 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
         }
         return adjacentVerticesId;
     }
+
+    @Override
+    public void deleteAdjacencyMatrix() {
+        LOGGER.info("------ DELETING ADJACENCY LIST");
+        adjacencyMatrix.delete();
+        LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
+    }
 }

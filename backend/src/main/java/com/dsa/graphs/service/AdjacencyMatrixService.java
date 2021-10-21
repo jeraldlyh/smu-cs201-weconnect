@@ -9,6 +9,7 @@ import com.dsa.graphs.models.AdjacencyMatrix;
 public interface AdjacencyMatrixService {
     AdjacencyMatrixDTO createAdjacencyMatrix();
     AdjacencyMatrix getAdjacencyMatrix();
+    void deleteAdjacencyMatrix();
     FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser);
     List<Integer> getAdjacentVerticesByIndex(int[][] matrix, int index);
     List<String> getAdjacentVerticesId(int[][] matrix, int index);

@@ -1,5 +1,6 @@
 package com.dsa.graphs.models;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -71,6 +72,12 @@ public class AdjacencyMatrix implements Graph {
     @Override
     public int getSize() {
         return vertices.size();
+    }
+
+    @Override
+    public void delete() {
+        vertices.clear();
+        Arrays.stream(matrix).forEach(row -> Arrays.fill(row, 0));
     }
 
     public int[][] getAdjacencyMatrix() {

@@ -91,10 +91,16 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
                 for (String neighbour: adjacentVertices) {
                     // Found the vertex that we're looking for in the graph
                     if (toUser.equals(neighbour)) {
-                        List<String> adjacentVerticesId = getAdjacentVerticesId(toUser);
+                        // Corner case where the node does not exist as a vertex in the graph
+                        // but it's located in user's friend list
+                        User targetUser = nodeService.getNode(toUser);
 
-                        LOGGER.info("------ SUCCESSFULLY FOUND USER: " + nodeService.getNode(toUser));
-                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVerticesId), degreeOfRelationship);
+                        if (targetUser == null) {
+                            LOGGER.info("------ USER DOES NOT EXIST IN GRAPH");
+                            return null;
+                        }
+                        LOGGER.info("------ SUCCESSFULLY FOUND USER: " + targetUser);
+                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVertices), degreeOfRelationship);
                     }
 
                     // Check if neighbour has been previously visited to prevent an infinite recursion
@@ -134,7 +140,7 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
 
         for (String user: data.keySet()) {
             if (!visited.contains(user)) {
-                result = getFriendSuggestionsByBfs(fromUser, toUser, visited);
+                result = getFriendSuggestionsByBfs(user, toUser, visited);
 
                 if (result != null) {       // Exit once user has been found
                     break;
@@ -142,11 +148,5 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
             }
         }
         return result;
-    }
-
-    // This method is O(|V|) time complexity where it converts a LinkedList to ArrayList
-    @Override
-    public List<String> getAdjacentVerticesId(String userId) {
-        return new ArrayList<>(adjacencyList.getNeighbours(userId));
     }
 }

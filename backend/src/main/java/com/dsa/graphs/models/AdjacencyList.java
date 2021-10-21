@@ -98,6 +98,10 @@ public class AdjacencyList implements Graph {
 
     // This method is O(n) time complexity where it converts a LinkedList to ArrayList
     public List<String> getNeighbours(String user) {
+        LinkedList<String> neighbours = adjacencyList.get(user);
+        if (neighbours == null) {
+            return null;
+        }
         return new ArrayList<>(adjacencyList.get(user));    // get() method is O(1) time complexity
     }
 

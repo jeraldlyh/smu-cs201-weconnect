@@ -53,7 +53,6 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
         LOGGER.info("------ SUCCESSFULLY CREATED ADJACENCY MATRIX");
         AdjacencyMatrixDTO adjacencyMatrixDTO = new AdjacencyMatrixDTO(adjacencyMatrix, timeTaken);
-        System.out.println(adjacencyMatrix);
         return adjacencyMatrixDTO;
     }
 

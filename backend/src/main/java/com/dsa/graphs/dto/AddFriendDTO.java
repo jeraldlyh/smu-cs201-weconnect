@@ -1,4 +1,4 @@
-package com.dsa.graphs.models;
+package com.dsa.graphs.dto;
 
 import lombok.Getter;
 

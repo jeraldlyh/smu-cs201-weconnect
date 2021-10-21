@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import com.dsa.graphs.dto.AdjacencyListDTO;
+import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.models.AdjacencyList;
-import com.dsa.graphs.models.AdjacencyListDTO;
-import com.dsa.graphs.models.FriendSuggestionDTO;
 import com.dsa.graphs.models.User;
 
 import org.apache.logging.log4j.LogManager;

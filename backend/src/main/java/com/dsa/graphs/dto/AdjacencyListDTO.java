@@ -1,4 +1,6 @@
-package com.dsa.graphs.models;
+package com.dsa.graphs.dto;
+
+import com.dsa.graphs.models.AdjacencyList;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -67,13 +67,21 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
     /**
      * This method is O(n^2) time complexity because of getListOfNodes() method which incurs O(n^2) time complexity.
-     * It first searches through each row of the matrix and add adjacent vertex that has an edge into the queue
-     * to traverse subsequently. It then adds the traversed node into a visited array to ensure that it does not 
-     * get traversed again.
+     * Steps:
+     * 1. It adds an edge between the vertices
+     * 2. Searches through each row of the matrix and add adjacent vertex that has an edge into the queue to traverse subsequently.
+     * 3. It then adds the traversed node into a visited array to ensure that it does not get traversed again.
+     * 
+     * @param fromUser String representing the userId of the caller
+     * @param toUser String representing the userId of specified user
+     * @return FriendSuggestionDTO response model
      */
     @Override
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
         createAdjacencyMatrix();
+
+        // Establish an relationship between the users prior to BFS
+        adjacencyMatrix.addEdge(fromUser, toUser);
 
         Queue<String> queue = new LinkedList<>();
         List<String> visited = new ArrayList<>();
@@ -103,7 +111,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
                         // TODO: Does this method cause the parent method to be O(n^3)?
 
-                        // getAdjacentVerticesId is O(n) time complexity
+                        // getAdjacentVerticesId() is O(n) time complexity
                         List<String> adjacentVerticesId = getAdjacentVerticesId(matrix, i);
 
                         // getListOfNodes() is O(n^2) time complexity

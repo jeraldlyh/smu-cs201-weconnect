@@ -1,6 +1,7 @@
 package com.dsa.graphs.models;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +13,7 @@ public class AdjacencyList implements Graph {
     private Map<String, LinkedList<String>> adjacencyList = new HashMap<>();
 
     /**
-     * This method is O(n) time complexity where it instantiates
+     * This method is O(|V|) time complexity where it instantiates
      * each vertex with an empty linked list.
      * 
      * @param nodes Collection of nodes that contain user data
@@ -56,17 +57,32 @@ public class AdjacencyList implements Graph {
         }
     }
 
+    public void updateLinkedList(String fromUser, String toUser) {
+        LinkedList<String> userFriends = adjacencyList.get(fromUser);
+        if (userFriends != null) {
+            // Store a boolean to check if user already exists in the linkedList
+            boolean isExist = false;
+            Iterator<String> userFriendsIter = userFriends.iterator();
+
+            // This loop is O(|V|) time complexity as the worst case is where
+            // the linkedList has to look through all the vertices (i.e. all users) stored inside
+            while (userFriendsIter.hasNext()) {
+                if (userFriendsIter.next().equals(toUser)) {
+                    isExist = true;
+                    break;
+                }
+            }
+            if (!isExist) userFriends.add(toUser);            // add() is O(1) time complexity
+        }
+    }
+
+    /**
+     * This method is O(|V|) as it has to search if there's a duplicate node
+     */
     @Override
     public void addEdge(String fromUser, String toUser) {
-        LinkedList<String> fromUserFriends = adjacencyList.get(fromUser);
-        if (fromUserFriends != null) {
-            fromUserFriends.add(toUser);
-        }
-
-        LinkedList<String> toUserFriends = adjacencyList.get(toUser);
-        if (toUserFriends != null) {
-            toUserFriends.add(fromUser);
-        }
+        updateLinkedList(fromUser, toUser);
+        updateLinkedList(toUser, fromUser);
     }
 
     @Override

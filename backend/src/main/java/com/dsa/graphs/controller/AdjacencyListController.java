@@ -19,14 +19,9 @@ public class AdjacencyListController {
     }
 
     // Unsure why it returns size of array if AdjacencyList type is returned as a response
-    @GetMapping("/test")
+    @GetMapping("/adjacency-list")
     public String getAdjacencyList() {
         return adjacencyListService.getAdjacencyList().toString();
-    }
-
-    @GetMapping("/adjacency-list/create")
-    public AdjacencyListDTO createAdjacencyList() {
-        return adjacencyListService.createAdjacencyList();
     }
 
     @PostMapping("/adjacency-list")

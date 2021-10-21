@@ -42,8 +42,8 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         Set<User> nodes = nodeService.getNodes();
         LocalDateTime start = LocalDateTime.now();
 
-        adjacencyList.createVertices(nodes);
-        adjacencyList.createEdges(nodes);
+        adjacencyList.createVertices(nodes);        // O(|V|) time complexity
+        adjacencyList.createEdges(nodes);           // O(|V|) time complexity
 
         LocalDateTime end = LocalDateTime.now();
         long timeTaken = ChronoUnit.MILLIS.between(start, end);
@@ -84,7 +84,6 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         while(queue.size() != 0) {
             // Dequeue the vertex from the queue
             String vertex = queue.poll();
-            System.out.println("Currently at: " + vertex);
             LinkedList<String> adjacentVertices = adjacencyList.getNeighbours(vertex);
 
             if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
@@ -97,7 +96,9 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
 
                     // Found the vertex that we're looking for in the graph
                     if (toUser.equals(neighbour)) {
-                        LOGGER.info("------ FOUND USER: " + nodeService.getNode(toUser));
+                        System.out.println(adjacencyList.getAdjacencyList());
+
+                        LOGGER.info("------ SUCCESSFULLY FOUND USER: " + nodeService.getNode(toUser));
                         return new FriendSuggestionDTO(nodeService.getListOfNodes(toUser), degreeOfRelationship);
                     }
 
@@ -114,9 +115,23 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         return null;
     }
 
+    /**
+     * This method calls its overloaded method where it runs BFS on every single vertex since
+     * the graph might be disconnected.
+     * 
+     * Steps:
+     * 1. Adds an edge between the vertices
+     * 2. Runs BFS on each vertex that has yet to be visited
+     * 3. Stops running BFS on susbequent vertices if the specified user has been found
+     * 
+     * @param fromUser String that represents the caller userId
+     * @param toUser String that represents the target userId
+     * @return FriendSuggestionDTO response model
+     */
     @Override
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
         createAdjacencyList();
+        adjacencyList.addEdge(fromUser, toUser);
 
         List<String> visited = new ArrayList<String>();        // Create a set to mark vertices that are visited
         Map<String, LinkedList<String>> data = adjacencyList.getAdjacencyList();

@@ -114,6 +114,8 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
                         // getAdjacentVerticesId() is O(n) time complexity
                         List<String> adjacentVerticesId = getAdjacentVerticesId(matrix, i);
 
+                        LOGGER.info("------ SUCCESSFULLY FOUND USER: " + adjacentUserId);
+
                         // getListOfNodes() is O(n^2) time complexity
                         return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVerticesId), degreeOfRelationship);
                     }

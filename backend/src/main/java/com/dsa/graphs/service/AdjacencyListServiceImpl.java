@@ -160,8 +160,10 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
 
     @Override
     public void deleteAdjacencyList() {
-        LOGGER.info("------ DELETING ADJACENCY LIST");
-        adjacencyList.delete();
-        LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
+        if (adjacencyList != null) {
+            LOGGER.info("------ DELETING ADJACENCY LIST");
+            adjacencyList.delete();
+            LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
+        }
     }
 }

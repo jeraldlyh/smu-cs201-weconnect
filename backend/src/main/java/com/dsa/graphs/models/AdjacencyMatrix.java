@@ -13,7 +13,7 @@ public class AdjacencyMatrix implements Graph {
     }
 
     /**
-     * This method is O(n) time complexity where it assigns 
+     * This method is O(|V|) time complexity where it assigns 
      * an index to each vertex to be able to map a 2D matrix.
      * 
      * @param nodes Collection of nodes that contain user data
@@ -50,7 +50,7 @@ public class AdjacencyMatrix implements Graph {
         vertices.put(userId, index);                // put() method is O(1) time complexity
     }
 
-    // Overriden method from Graph interface but is  not applicable to this class
+    // Overriden method from Graph interface but is not applicable to this class
     @Override
     public void addVertex(String userId) {}
 
@@ -100,7 +100,7 @@ public class AdjacencyMatrix implements Graph {
     }
 
     /**
-     * This method is O(n) time complexity where it searches through the list of values
+     * This method is O(|V|) time complexity where it searches through the list of vertices to obtain the index
      * 
      * @param index Integer that represents a vertex (i.e. user)
      * @return String that represents userId

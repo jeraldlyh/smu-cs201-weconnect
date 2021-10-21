@@ -89,7 +89,7 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
             if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
                 Iterator<String> adjacentVerticesIter = adjacentVertices.listIterator();
 
-                // This loop is O(n) time complexity where the worst case is that the linkedList
+                // This loop is O(|V|) time complexity where the worst case is that the linkedList
                 // contains edges to all other users
                 while (adjacentVerticesIter.hasNext()) {
                     String neighbour = adjacentVerticesIter.next();

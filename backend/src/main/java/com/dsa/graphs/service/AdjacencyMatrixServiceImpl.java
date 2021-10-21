@@ -66,7 +66,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
     }
 
     /**
-     * This method is O(n^2) time complexity because of getListOfNodes() method which incurs O(n^2) time complexity.
+     * This method is O(|V|^2) time complexity because of getListOfNodes() method which incurs O(|V|^2) time complexity.
      * Steps:
      * 1. It adds an edge between the vertices
      * 2. Searches through each row of the matrix and add adjacent vertex that has an edge into the queue to traverse subsequently.
@@ -102,7 +102,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
                 // Skip the validation for edge (i.e. relationship) that connect the vertex (i.e. user) to itself
                 if (i == userIndex) continue;
 
-                String adjacentUserId = adjacencyMatrix.getUserIdByIndex(i);        // getUserIdByIndex() is O(n) time complexity
+                String adjacentUserId = adjacencyMatrix.getUserIdByIndex(i);        // getUserIdByIndex() is O(|V|) time complexity
 
                 // Check if an edge is found
                 if (matrix[userIndex][i] == 1) {
@@ -111,12 +111,12 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
                         // TODO: Does this method cause the parent method to be O(n^3)?
 
-                        // getAdjacentVerticesId() is O(n) time complexity
+                        // getAdjacentVerticesId() is O(|V|) time complexity
                         List<String> adjacentVerticesId = getAdjacentVerticesId(matrix, i);
 
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + adjacentUserId);
 
-                        // getListOfNodes() is O(n^2) time complexity
+                        // getListOfNodes() is O(|V|^2) time complexity
                         return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVerticesId), degreeOfRelationship);
                     }
 
@@ -134,7 +134,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
     }
 
     /**
-     * This method is O(n) time complexity where it has to traverse through the 
+     * This method is O(|V|) time complexity where it has to traverse through the 
      * entire row to find edges
      * @param matrix 2D array containing the edges of the vertices
      * @param index Integer that represents the index of the vertex in the matrix
@@ -156,19 +156,19 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
     }
 
     /**
-     * This method is O(n) time complexity where the worst case is that adjacentVerticesIndex 
-     * contains n elements where the current vertex (i.e. user) is connected to all other vertices
+     * This method is O(|V|) time complexity where the worst case is that adjacentVerticesIndex 
+     * contains all the vertices where the current vertex (i.e. user) is connected to them
      * 
      * @param matrix 2D array containing the edges of the vertices
      * @param index Integer that represents the index of the vertex in the matrix
      * @return List of String that represent adjacent vertices (i.e. userId)
      */
     public List<String> getAdjacentVerticesId(int[][] matrix, int index) {
-        // O(n) time complexity, refer to above implementation
+        // O(|V|) time complexity, refer to above implementation
         List<Integer> adjacentVerticesIndex = getAdjacentVerticesByIndex(matrix, index);
         List<String> adjacentVerticesId = new ArrayList<>();
 
-        // O(n) time complexity for this loop as well
+        // O(|V|) time complexity for this loop as well
         for (int i: adjacentVerticesIndex) {
             adjacentVerticesId.add(adjacencyMatrix.getUserIdByIndex(i));
         }

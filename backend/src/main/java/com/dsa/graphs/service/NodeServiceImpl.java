@@ -111,6 +111,7 @@ public class NodeServiceImpl implements NodeService {
         for (String friendId : targetUserFriendIdsList) {
             targetUserFriends.add(getNode(friendId.strip()));
         }
+        System.out.println(targetUserFriends);
         return targetUserFriends;
     }
 

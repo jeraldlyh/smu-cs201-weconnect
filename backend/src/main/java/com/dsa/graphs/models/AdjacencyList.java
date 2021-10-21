@@ -8,26 +8,10 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AdjacencyList {
+public class AdjacencyList implements Graph {
     private Map<String, LinkedList<String>> adjacencyList = new HashMap<>();
 
-    public void createEdges(Set<User> nodes) {
-        for (User user : nodes) {
-            String friends = user.getFriends();
-
-            if (friends != null) { // Checks if user has friends
-                String[] listOfFriends = user.getFriends().split(",");
-
-                for (String friendId : listOfFriends) {
-                    // Prevent adding empty edges
-                    if (!friendId.isEmpty()) {
-                        addEdge(user.getUser_id().strip(), friendId.strip());
-                    }
-                }
-            }
-        }
-    }
-
+    @Override
     public void createNodes(Set<User> nodes) {
         // for (User user : nodes) {
         //     String friends = user.getFriends();
@@ -48,6 +32,25 @@ public class AdjacencyList {
         }
     }
 
+    @Override
+    public void createEdges(Set<User> nodes) {
+        for (User user : nodes) {
+            String friends = user.getFriends();
+
+            if (friends != null) { // Checks if user has friends
+                String[] listOfFriends = user.getFriends().split(",");
+
+                for (String friendId : listOfFriends) {
+                    // Prevent adding empty edges
+                    if (!friendId.isEmpty()) {
+                        addEdge(user.getUser_id().strip(), friendId.strip());
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void addEdge(String fromUser, String toUser) {
         LinkedList<String> fromUserFriends = adjacencyList.get(fromUser);
         if (fromUserFriends != null) {
@@ -60,9 +63,14 @@ public class AdjacencyList {
         }
     }
 
-    public void addNode(String userID) {
-        adjacencyList.put(userID, new LinkedList<String>());
+    @Override
+    public void addNode(String userId) {
+        adjacencyList.put(userId, new LinkedList<String>());        // put() method is O(1) time complexity
     }
+
+    // Overriden method from Graph interface but is  not applicable to this class
+    @Override
+    public void addNode(String userId, int index) { }
 
     public LinkedList<String> getNeighbours(String user) {
         return adjacencyList.get(user);

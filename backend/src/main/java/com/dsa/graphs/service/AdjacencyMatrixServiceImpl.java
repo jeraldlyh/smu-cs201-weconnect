@@ -1,7 +1,6 @@
 package com.dsa.graphs.service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +11,7 @@ import com.dsa.graphs.dto.AdjacencyMatrixDTO;
 import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.models.AdjacencyMatrix;
 import com.dsa.graphs.models.User;
+import com.dsa.graphs.util.Time;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,10 +49,12 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
         adjacencyMatrix.createEdges(nodes);
 
         LocalDateTime end = LocalDateTime.now();
-        long timeTaken = ChronoUnit.MILLIS.between(start, end);
 
         LOGGER.info("------ SUCCESSFULLY CREATED ADJACENCY MATRIX");
-        AdjacencyMatrixDTO adjacencyMatrixDTO = new AdjacencyMatrixDTO(adjacencyMatrix, timeTaken);
+        AdjacencyMatrixDTO adjacencyMatrixDTO = new AdjacencyMatrixDTO(
+            adjacencyMatrix, 
+            Time.calculateTimeTaken(start, end)
+        );
         return adjacencyMatrixDTO;
     }
 
@@ -79,8 +81,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
         createAdjacencyMatrix();
 
-        // Establish an relationship between the users prior to BFS
-        adjacencyMatrix.addEdge(fromUser, toUser);
+        LocalDateTime start = LocalDateTime.now();
 
         Queue<String> queue = new LinkedList<>();
         List<String> visited = new ArrayList<>();
@@ -115,8 +116,15 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + adjacentUserId);
 
+                        // Establish an relationship between the users after BFS
+                        adjacencyMatrix.addEdge(fromUser, toUser);
+
                         // getListOfNodes() is O(|V|^2) time complexity
-                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVerticesId), degreeOfRelationship);
+                        return new FriendSuggestionDTO(
+                            nodeService.getListOfNodes(adjacentVerticesId), 
+                            degreeOfRelationship, 
+                            Time.calculateTimeTaken(start, LocalDateTime.now())
+                        );
                     }
 
                     // Check if the vertex has been visited previously to prevent infinite loop
@@ -128,8 +136,11 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
             }
             degreeOfRelationship++;
         }
+        // Establish an relationship between the users after BFS
+        adjacencyMatrix.addEdge(fromUser, toUser);
+
         LOGGER.info("------ NO USER FOUND AT THE END OF BFS FOR ADJACENCY MATRIX");
-        return null;
+        return new FriendSuggestionDTO(null, 0, Time.calculateTimeTaken(start, LocalDateTime.now()));
     }
 
     /**

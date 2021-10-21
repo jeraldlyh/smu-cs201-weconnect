@@ -13,6 +13,7 @@ import com.dsa.graphs.dto.AdjacencyListDTO;
 import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.models.AdjacencyList;
 import com.dsa.graphs.models.User;
+import com.dsa.graphs.util.Time;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -73,7 +74,7 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
      */
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser, List<String> visited) {
         Queue<String> queue = new LinkedList<String>();     // Create a queue to store vertices that has an edge connected to current vertex and have yet to visit
-        int degreeOfRelationship = 0;                          // Create an integer to check how deep are the connections from the user to another specified user
+        int degreeOfRelationship = 0;                       // Create an integer to check how deep are the connections from the user to another specified user
 
         visited.add(fromUser);
         queue.add(fromUser);
@@ -132,8 +133,8 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
     @Override
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
         createAdjacencyList();
-        adjacencyList.addEdge(fromUser, toUser);
 
+        LocalDateTime start = LocalDateTime.now();
         List<String> visited = new ArrayList<String>();        // Create a set to mark vertices that are visited
         Map<String, LinkedList<String>> data = adjacencyList.getAdjacencyList();
         FriendSuggestionDTO result = null;
@@ -147,6 +148,13 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
                 }
             }
         }
+        // Establish an relationship between the users after BFS
+        adjacencyList.addEdge(fromUser, toUser);
+
+        if (result == null) {
+            result = new FriendSuggestionDTO(null, 0);
+        }
+        result.setTimeTaken(Time.calculateTimeTaken(start, LocalDateTime.now()));
         return result;
     }
 }

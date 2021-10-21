@@ -65,6 +65,12 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
         return adjacencyMatrix;
     }
 
+    /**
+     * This method is O(n^2) time complexity because of getListOfNodes() method which incurs O(n^2) time complexity.
+     * It first searches through each row of the matrix and add adjacent vertex that has an edge into the queue
+     * to traverse subsequently. It then adds the traversed node into a visited array to ensure that it does not 
+     * get traversed again.
+     */
     @Override
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
         createAdjacencyMatrix();
@@ -82,7 +88,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
         while (queue.size() != 0) {
             // Remove vertex from queue
             String userId = queue.poll();
-            int userIndex = adjacencyMatrix.getIndexByUserId(userId);
+            int userIndex = adjacencyMatrix.getIndexByUserId(userId);               // O(1) time complexity
 
             for (int i = 0; i < matrix.length; i++) {
                 // Skip the validation for edge (i.e. relationship) that connect the vertex (i.e. user) to itself
@@ -94,7 +100,14 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
                 if (matrix[userIndex][i] == 1) {
                     // Check if target vertex (i.e. user) has been found
                     if (adjacentUserId.equals(toUser)) {
-                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentUserId), degreeOfRelationship);
+
+                        // TODO: Does this method cause the parent method to be O(n^3)?
+
+                        // getAdjacentVerticesId is O(n) time complexity
+                        List<String> adjacentVerticesId = getAdjacentVerticesId(matrix, i);
+
+                        // getListOfNodes() is O(n^2) time complexity
+                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVerticesId), degreeOfRelationship);
                     }
 
                     // Check if the vertex has been visited previously to prevent infinite loop
@@ -110,4 +123,45 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
         return null;
     }
 
+    /**
+     * This method is O(n) time complexity where it has to traverse through the 
+     * entire row to find edges
+     * @param matrix 2D array containing the edges of the vertices
+     * @param index Integer that represents the index of the vertex in the matrix
+     * @return List of indexes that represent adjacent vertices that are connected to the specified vertex (i.e. user)
+     */
+    @Override
+    public List<Integer> getAdjacentVerticesByIndex(int[][] matrix, int index) {
+        List<Integer> adjacentVertices = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            if (i == index) continue;
+
+            // Check if there's an edge
+            if (matrix[index][i] == 1) {
+                adjacentVertices.add(i);
+            }
+        }
+
+        return adjacentVertices;
+    }
+
+    /**
+     * This method is O(n) time complexity where the worst case is that adjacentVerticesIndex 
+     * contains n elements where the current vertex (i.e. user) is connected to all other vertices
+     * 
+     * @param matrix 2D array containing the edges of the vertices
+     * @param index Integer that represents the index of the vertex in the matrix
+     * @return List of String that represent adjacent vertices (i.e. userId)
+     */
+    public List<String> getAdjacentVerticesId(int[][] matrix, int index) {
+        // O(n) time complexity, refer to above implementation
+        List<Integer> adjacentVerticesIndex = getAdjacentVerticesByIndex(matrix, index);
+        List<String> adjacentVerticesId = new ArrayList<>();
+
+        // O(n) time complexity for this loop as well
+        for (int i: adjacentVerticesIndex) {
+            adjacentVerticesId.add(adjacencyMatrix.getUserIdByIndex(i));
+        }
+        return adjacentVerticesId;
+    }
 }

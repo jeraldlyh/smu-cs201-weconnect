@@ -107,11 +107,28 @@ public class NodeServiceImpl implements NodeService {
 
         String[] targetUserFriendIdsList = targetUserFriendIds.split(",");
         List<User> targetUserFriends = new ArrayList<>();
-        System.out.println(Arrays.toString(targetUserFriendIdsList));
 
         for (String friendId : targetUserFriendIdsList) {
             targetUserFriends.add(getNode(friendId.strip()));
         }
+        return targetUserFriends;
+    }
+
+    /**
+     * This method is O(n^2) time complexity where the worst case is the input list 
+     * contains all edges (i.e. n) and getNode() method is O(n) time complexity
+     * 
+     * @param userIds List of userIds
+     * @return List of users objects that is represented as nodes
+     */
+    @Override
+    public List<User> getListOfNodes(List<String> userIds) {
+        List<User> targetUserFriends = new ArrayList<>();
+
+        for (String userId: userIds) {
+            targetUserFriends.add(getNode(userId));
+        }
+
         return targetUserFriends;
     }
 }

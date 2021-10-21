@@ -10,4 +10,5 @@ public interface NodeService {
     Set<User> getNodes();
     User getNode(String userId);
     List<User> getListOfNodes(String userId);
+    List<User> getListOfNodes(List<String> indexes);
 }

@@ -4,11 +4,13 @@ import com.dsa.graphs.dto.AddFriendDTO;
 import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.service.AdjacencyListService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = { "http://localhost:3000", "https://cs201-we-connect.vercel.app/" })
 @RestController
 public class AdjacencyListController {
     private AdjacencyListService adjacencyListService;

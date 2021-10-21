@@ -3,6 +3,7 @@ import classnames from "classnames"
 import { useEffect, useState } from "react"
 import BoxCard from "../components/boxCard"
 import ProfileCard from "../components/profileCard"
+import { generateAdjacencyList } from "src/actions/adjacencyList"
 
 
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
             </Head>
             <div className="flex border divide-x h-96">
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">
-                    <BoxCard timeTaken={adjacencyListTimeTaken} title="Adjacency List" />
+                    <BoxCard timeTaken={adjacencyListTimeTaken} title="Adjacency List" generate={generateAdjacencyList} />
                 </div>
 
                 <div className="flex flex-col w-1/4 p-3 items-center">

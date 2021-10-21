@@ -54,7 +54,7 @@ public class NodeServiceImpl implements NodeService {
                 //     }
                 // }
             }
-            System.out.println(nodes);
+            // System.out.println(nodes);
             LOGGER.info("------ SUCCESSFULLY GENERATED NODES");
         } catch (IOException e) {
             LOGGER.warn("------ FILE NOT FOUND");
@@ -110,7 +110,7 @@ public class NodeServiceImpl implements NodeService {
         for (String friendId : targetUserFriendIdsList) {
             targetUserFriends.add(getNode(friendId.strip()));
         }
-        System.out.println(targetUserFriends);
+        // System.out.println(targetUserFriends);
         return targetUserFriends;
     }
 

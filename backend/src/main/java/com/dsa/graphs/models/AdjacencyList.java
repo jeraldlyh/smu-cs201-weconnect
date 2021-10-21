@@ -1,8 +1,10 @@
 package com.dsa.graphs.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -94,8 +96,9 @@ public class AdjacencyList implements Graph {
     @Override
     public void addVertex(String userId, int index) { }
 
-    public LinkedList<String> getNeighbours(String user) {
-        return adjacencyList.get(user);                             // get() method is O(1) time complexity
+    // This method is O(n) time complexity where it converts a LinkedList to ArrayList
+    public List<String> getNeighbours(String user) {
+        return new ArrayList<>(adjacencyList.get(user));    // get() method is O(1) time complexity
     }
 
     @Override

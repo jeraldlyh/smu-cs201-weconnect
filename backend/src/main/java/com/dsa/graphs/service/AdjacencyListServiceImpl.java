@@ -3,7 +3,6 @@ package com.dsa.graphs.service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -84,22 +83,18 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         while(queue.size() != 0) {
             // Dequeue the vertex from the queue
             String vertex = queue.poll();
-            LinkedList<String> adjacentVertices = adjacencyList.getNeighbours(vertex);
+            List<String> adjacentVertices = adjacencyList.getNeighbours(vertex);
 
             if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
-                Iterator<String> adjacentVerticesIter = adjacentVertices.listIterator();
 
-                // This loop is O(|V|) time complexity where the worst case is that the linkedList
-                // contains edges to all other users
-                while (adjacentVerticesIter.hasNext()) {
-                    String neighbour = adjacentVerticesIter.next();
-
+                // This loop is O(|V|) time complexity where the worst case is that the LinkedList contains edges to all other users
+                for (String neighbour: adjacentVertices) {
                     // Found the vertex that we're looking for in the graph
                     if (toUser.equals(neighbour)) {
-                        System.out.println(adjacencyList.getAdjacencyList());
+                        List<String> adjacentVerticesId = getAdjacentVerticesId(toUser);
 
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + nodeService.getNode(toUser));
-                        return new FriendSuggestionDTO(nodeService.getListOfNodes(toUser), degreeOfRelationship);
+                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVerticesId), degreeOfRelationship);
                     }
 
                     // Check if neighbour has been previously visited to prevent an infinite recursion
@@ -146,7 +141,12 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
                 }
             }
         }
-
         return result;
+    }
+
+    // This method is O(|V|) time complexity where it converts a LinkedList to ArrayList
+    @Override
+    public List<String> getAdjacentVerticesId(String userId) {
+        return new ArrayList<>(adjacencyList.getNeighbours(userId));
     }
 }

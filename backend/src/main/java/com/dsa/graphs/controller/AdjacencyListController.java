@@ -1,7 +1,6 @@
 package com.dsa.graphs.controller;
 
 import com.dsa.graphs.dto.AddFriendDTO;
-import com.dsa.graphs.dto.AdjacencyListDTO;
 import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.service.AdjacencyListService;
 

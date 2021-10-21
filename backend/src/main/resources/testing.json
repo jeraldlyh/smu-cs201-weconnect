@@ -1,0 +1,75 @@
+[
+    {
+        "user_id": "apple",
+        "name": "Apple",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "",
+        "fans": 420,
+        "average_stars": 3.77
+    },
+    {
+        "user_id": "pear",
+        "name": "Pear",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "apple, unknownFruit",
+        "fans": 420,
+        "average_stars": 3.77
+    }
+    ,
+    {
+        "user_id": "orange",
+        "name": "Orange",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "pineapple",
+        "fans": 420,
+        "average_stars": 3.77
+    },
+    {
+        "user_id": "pineapple",
+        "name": "Pineapple",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "orange, pear",
+        "fans": 420,
+        "average_stars": 3.77
+    },
+    {
+        "user_id": "grape",
+        "name": "Grape",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "orange",
+        "fans": 420,
+        "average_stars": 3.77
+    },
+    {
+        "user_id": "disconnected",
+        "name": "Disconnected",
+        "review_count": 987,
+        "yelping_since": "2009-02-09 16:14:29",
+        "useful": 7234,
+        "funny": 4722,
+        "cool": 4035,
+        "friends": "",
+        "fans": 420,
+        "average_stars": 3.77
+    }
+]

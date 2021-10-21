@@ -36,7 +36,7 @@ public class NodeServiceImpl implements NodeService {
     public void generateNodes() {
         try {
             LOGGER.info("------ STARTING TO GENERATE NODES");
-            File resource = new ClassPathResource("data.json").getFile();
+            File resource = new ClassPathResource("testing.json").getFile();
             BufferedReader reader = new BufferedReader(new FileReader(resource));
             User[] users = gson.fromJson(reader, User[].class);
 

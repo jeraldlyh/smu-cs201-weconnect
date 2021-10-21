@@ -18,7 +18,7 @@ public class AdjacencyList implements Graph {
      * @param nodes Collection of nodes that contain user data
      */
     @Override
-    public void createNodes(Set<User> nodes) {
+    public void createVertices(Set<User> nodes) {
         // for (User user : nodes) {
         //     String friends = user.getFriends();
 
@@ -34,7 +34,7 @@ public class AdjacencyList implements Graph {
         //     addNode(user.getUser_id().strip());
         // }
         for (User user : nodes) {
-            addNode(user.getUser_id().strip());
+            addVertex(user.getUser_id().strip());
         }
     }
 
@@ -70,13 +70,13 @@ public class AdjacencyList implements Graph {
     }
 
     @Override
-    public void addNode(String userId) {
+    public void addVertex(String userId) {
         adjacencyList.put(userId, new LinkedList<String>());        // put() method is O(1) time complexity
     }
 
     // Overriden method from Graph interface but is not applicable to this class
     @Override
-    public void addNode(String userId, int index) { }
+    public void addVertex(String userId, int index) { }
 
     public LinkedList<String> getNeighbours(String user) {
         return adjacencyList.get(user);                             // get() method is O(1) time complexity

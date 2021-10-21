@@ -40,7 +40,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
         adjacencyMatrix = new AdjacencyMatrix(nodes.size());
         LocalDateTime start = LocalDateTime.now();
 
-        adjacencyMatrix.createNodes(nodes);
+        adjacencyMatrix.createVertices(nodes);
         adjacencyMatrix.createEdges(nodes);
 
         LocalDateTime end = LocalDateTime.now();

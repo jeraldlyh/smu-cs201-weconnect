@@ -19,10 +19,10 @@ public class AdjacencyMatrix implements Graph {
      * @param nodes Collection of nodes that contain user data
      */
     @Override
-    public void createNodes(Set<User> nodes) {
+    public void createVertices(Set<User> nodes) {
         int index = 0;
         for (User user: nodes) {
-            addNode(user.getUser_id(), index++);
+            addVertex(user.getUser_id(), index++);
         }
     }
 
@@ -46,13 +46,13 @@ public class AdjacencyMatrix implements Graph {
     }
 
     @Override
-    public void addNode(String userId, int index) {
+    public void addVertex(String userId, int index) {
         vertices.put(userId, index);                // put() method is O(1) time complexity
     }
 
     // Overriden method from Graph interface but is  not applicable to this class
     @Override
-    public void addNode(String userId) {}
+    public void addVertex(String userId) {}
 
     @Override
     public void addEdge(String fromUser, String toUser) {

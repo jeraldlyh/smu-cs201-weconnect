@@ -42,7 +42,7 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         Set<User> nodes = nodeService.getNodes();
         LocalDateTime start = LocalDateTime.now();
 
-        adjacencyList.createNodes(nodes);
+        adjacencyList.createVertices(nodes);
         adjacencyList.createEdges(nodes);
 
         LocalDateTime end = LocalDateTime.now();

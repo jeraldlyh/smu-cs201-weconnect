@@ -5,11 +5,14 @@ import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.service.AdjacencyMatrixService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+@CrossOrigin(origins = { "http://localhost:3000", "https://cs201-we-connect.vercel.app/" })
 @RestController
 public class AdjacencyMatrixController {
     AdjacencyMatrixService adjacencyMatrixService;
@@ -21,8 +24,7 @@ public class AdjacencyMatrixController {
 
     @GetMapping("/adjacency-matrix")
     public String getAdjacencyMatrix() {
-        adjacencyMatrixService.getAdjacencyMatrix();
-        return "";
+        return adjacencyMatrixService.getAdjacencyMatrix().toString();
     }
 
     @PostMapping("/adjacency-matrix")

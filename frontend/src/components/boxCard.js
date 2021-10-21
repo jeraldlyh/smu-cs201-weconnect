@@ -1,12 +1,15 @@
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 
 
-const BoxCard = ({ timeTaken, title, generate, remove, setStatus }) => {
+const BoxCard = ({ title, generate, remove, setStatus }) => {
+    const [timeTaken, setTimeTaken] = useState(0)
+
     const generateGraph = () => {
         generate()
             .then(response => {
                 if (response.status === 200) {
                     setStatus(true)
+                    setTimeTaken(response.data.timeTaken)
                 }
             })
             .catch(error => console.log(error))

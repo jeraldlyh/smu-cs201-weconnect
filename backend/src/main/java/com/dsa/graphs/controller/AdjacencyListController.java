@@ -1,6 +1,7 @@
 package com.dsa.graphs.controller;
 
 import com.dsa.graphs.dto.AddFriendDTO;
+import com.dsa.graphs.dto.AdjacencyListDTO;
 import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.service.AdjacencyListService;
 
@@ -22,8 +23,8 @@ public class AdjacencyListController {
 
     // Unsure why it returns size of array if AdjacencyList type is returned as a response
     @GetMapping("/adjacency-list")
-    public String getAdjacencyList() {
-        return adjacencyListService.getAdjacencyList().toString();
+    public AdjacencyListDTO getAdjacencyList() {
+        return adjacencyListService.createAdjacencyList();
     }
 
     @PostMapping("/adjacency-list")

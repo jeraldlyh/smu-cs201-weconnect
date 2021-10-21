@@ -7,8 +7,6 @@ import { deleteAdjacencyList, generateAdjacencyList } from "src/actions/adjacenc
 
 
 export default function Home() {
-    const [adjacencyListTimeTaken, setAdjacencyListTimeTaken] = useState(0)
-    const [adjacencyMatrixTimeTaken, setAdjacencyMatrixTimeTaken] = useState(0)
     const [adjacencyListStatus, setAdjacencyListStatus] = useState(false)
     const [adjacencyMatrixStatus, setAdjacencyMatrixStatus] = useState(false)
 
@@ -33,7 +31,6 @@ export default function Home() {
             <div className="flex border divide-x h-96">
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">
                     <BoxCard
-                        timeTaken={adjacencyListTimeTaken}
                         title="Adjacency List"
                         generate={generateAdjacencyList}
                         remove={deleteAdjacencyList}
@@ -54,7 +51,9 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">
-                    <BoxCard timeTaken={adjacencyMatrixTimeTaken} title="Adjacency Matrix" />
+                    <BoxCard
+                        title="Adjacency Matrix"
+                    />
                 </div>
             </div>
             <div className="flex h-1/3 overflow-auto">

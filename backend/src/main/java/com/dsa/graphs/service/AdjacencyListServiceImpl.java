@@ -162,7 +162,6 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
     public void deleteAdjacencyList() {
         LOGGER.info("------ DELETING ADJACENCY LIST");
         adjacencyList.delete();
-        System.out.println(adjacencyList.getAdjacencyList());
         LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
     }
 }

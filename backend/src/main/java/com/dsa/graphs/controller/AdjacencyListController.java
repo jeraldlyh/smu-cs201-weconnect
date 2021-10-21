@@ -5,6 +5,7 @@ import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.service.AdjacencyListService;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,5 +29,10 @@ public class AdjacencyListController {
     @PostMapping("/adjacency-list")
     public FriendSuggestionDTO addFriend(@RequestBody AddFriendDTO addFriendDTO) {
         return adjacencyListService.getFriendSuggestionsByBfs(addFriendDTO.getFromUser(), addFriendDTO.getToUser());
+    }
+
+    @DeleteMapping("/adjacency-list")
+    public void deleteAdjacencyList() {
+        adjacencyListService.deleteAdjacencyList();
     }
 }

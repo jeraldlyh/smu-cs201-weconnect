@@ -110,6 +110,11 @@ public class AdjacencyList implements Graph {
         return adjacencyList.size();
     }
 
+    @Override
+    public void delete() {
+        adjacencyList.clear();
+    }
+
     public Map<String, LinkedList<String>> getAdjacencyList() {
         return adjacencyList;
     }

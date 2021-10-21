@@ -8,5 +8,6 @@ public interface Graph {
     void addVertex(String userId);
     void addVertex(String userId, int index);
     void addEdge(String fromUser, String toUser);
+    void delete();
     int getSize();
 }

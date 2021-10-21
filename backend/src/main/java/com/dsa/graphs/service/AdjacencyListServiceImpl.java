@@ -157,4 +157,12 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         result.setTimeTaken(Time.calculateTimeTaken(start, LocalDateTime.now()));
         return result;
     }
+
+    @Override
+    public void deleteAdjacencyList() {
+        LOGGER.info("------ DELETING ADJACENCY LIST");
+        adjacencyList.delete();
+        System.out.println(adjacencyList.getAdjacencyList());
+        LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
+    }
 }

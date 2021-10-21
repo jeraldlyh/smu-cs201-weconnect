@@ -2,9 +2,14 @@ package com.dsa.graphs.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import com.dsa.graphs.dto.AdjacencyMatrixDTO;
+import com.dsa.graphs.dto.FriendSuggestionDTO;
 import com.dsa.graphs.models.AdjacencyMatrix;
 import com.dsa.graphs.models.User;
 
@@ -48,6 +53,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
         LOGGER.info("------ SUCCESSFULLY CREATED ADJACENCY MATRIX");
         AdjacencyMatrixDTO adjacencyMatrixDTO = new AdjacencyMatrixDTO(adjacencyMatrix, timeTaken);
+        System.out.println(adjacencyMatrix);
         return adjacencyMatrixDTO;
     }
 
@@ -56,7 +62,52 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
         if (adjacencyMatrix == null || adjacencyMatrix.getSize() == 0) {
             createAdjacencyMatrix();
         }
-        System.out.println(adjacencyMatrix);
         return adjacencyMatrix;
     }
+
+    @Override
+    public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
+        createAdjacencyMatrix();
+
+        Queue<String> queue = new LinkedList<>();
+        List<String> visited = new ArrayList<>();
+        int degreeOfRelationship = 0;
+        int[][] matrix = adjacencyMatrix.getAdjacencyMatrix();
+
+        queue.add(fromUser);
+        visited.add(fromUser);
+
+        LOGGER.info("------ STARTING BFS SEARCH FOR ADJACENCY MATRIX");
+
+        while (queue.size() != 0) {
+            // Remove vertex from queue
+            String userId = queue.poll();
+            int userIndex = adjacencyMatrix.getIndexByUserId(userId);
+
+            for (int i = 0; i < matrix.length; i++) {
+                // Skip the validation for edge (i.e. relationship) that connect the vertex (i.e. user) to itself
+                if (i == userIndex) continue;
+
+                String adjacentUserId = adjacencyMatrix.getUserIdByIndex(i);        // getUserIdByIndex() is O(n) time complexity
+
+                // Check if an edge is found
+                if (matrix[userIndex][i] == 1) {
+                    // Check if target vertex (i.e. user) has been found
+                    if (adjacentUserId.equals(toUser)) {
+                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentUserId), degreeOfRelationship);
+                    }
+
+                    // Check if the vertex has been visited previously to prevent infinite loop
+                    if (!visited.contains(adjacentUserId)) {
+                        visited.add(adjacentUserId);
+                        queue.add(adjacentUserId);
+                    }
+                }
+            }
+            degreeOfRelationship++;
+        }
+        LOGGER.info("------ NO USER FOUND AT THE END OF BFS FOR ADJACENCY MATRIX");
+        return null;
+    }
+
 }

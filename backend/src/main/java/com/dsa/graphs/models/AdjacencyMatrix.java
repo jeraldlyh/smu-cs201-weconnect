@@ -57,11 +57,14 @@ public class AdjacencyMatrix implements Graph {
     @Override
     public void addEdge(String fromUser, String toUser) {
         // Use wrapper int class to store null values in the event where vertex (i.e. user) does not exist
+
         Integer indexOfFromUser = vertices.get(fromUser);
         Integer indexOfToUser = vertices.get(toUser);
 
         if (indexOfFromUser != null && indexOfToUser != null) {
-            matrix[indexOfFromUser][indexOfToUser] = 1;             // O(1) time complexity
+            // O(1) time complexity
+            matrix[indexOfFromUser][indexOfToUser] = 1;
+            matrix[indexOfToUser][indexOfFromUser] = 1;
         }
     }
 
@@ -109,5 +112,23 @@ public class AdjacencyMatrix implements Graph {
             }
         }
         return null;
+    }
+
+    /**
+     * This method is O(1) time complexity
+     * 
+     * @param userId String that represent the userId
+     * @return Integer indicating the index that was allocated to this vertex
+     */
+    public int getIndexByUserId(String userId) {
+        return vertices.get(userId);
+    }
+
+    public void printMatrix() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j]);
+            }
+        }
     }
 }

@@ -79,7 +79,7 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         visited.add(fromUser);
         queue.add(fromUser);
 
-        LOGGER.info("------ STARTING BFS SEARCH");
+        LOGGER.info("------ STARTING BFS SEARCH FOR ADJACENCY LIST");
 
         while(queue.size() != 0) {
             // Dequeue the vertex from the queue
@@ -90,6 +90,8 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
             if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
                 Iterator<String> adjacentVerticesIter = adjacentVertices.listIterator();
 
+                // This loop is O(n) time complexity where the worst case is that the linkedList
+                // contains edges to all other users
                 while (adjacentVerticesIter.hasNext()) {
                     String neighbour = adjacentVerticesIter.next();
 
@@ -108,14 +110,13 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
             }
             degreeOfRelationship++;
         }
-        LOGGER.info("------ NO USER FOUND AT THE END OF BFS");
+        LOGGER.info("------ NO USER FOUND AT THE END OF BFS FOR ADJACENCY LIST");
         return null;
     }
 
     @Override
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
         createAdjacencyList();
-        System.out.println(adjacencyList.getAdjacencyList());
 
         List<String> visited = new ArrayList<String>();        // Create a set to mark vertices that are visited
         Map<String, LinkedList<String>> data = adjacencyList.getAdjacencyList();

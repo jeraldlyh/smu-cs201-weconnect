@@ -1,6 +1,6 @@
 [
     {
-        "user_id": "asdasdzxczxczxcz",
+        "user_id": "apple",
         "name": "Apple",
         "review_count": 987,
         "yelping_since": "2009-02-09 16:14:29",
@@ -12,51 +12,51 @@
         "average_stars": 3.77
     },
     {
-        "user_id": "JnPIjvC0cmooNDfsa9BmXg",
+        "user_id": "pear",
         "name": "Pear",
         "review_count": 987,
         "yelping_since": "2009-02-09 16:14:29",
         "useful": 7234,
         "funny": 4722,
         "cool": 4035,
-        "friends": "asdasdzxczxczxcz, zczcacasdasdq, test",
+        "friends": "apple, unknownFruit",
         "fans": 420,
         "average_stars": 3.77
     }
     ,
     {
-        "user_id": "zczcacasdasdq",
+        "user_id": "orange",
         "name": "Orange",
         "review_count": 987,
         "yelping_since": "2009-02-09 16:14:29",
         "useful": 7234,
         "funny": 4722,
         "cool": 4035,
-        "friends": "abcd",
+        "friends": "pineapple",
         "fans": 420,
         "average_stars": 3.77
     },
     {
-        "user_id": "abcd",
-        "name": "Peep",
+        "user_id": "pineapple",
+        "name": "Pineapple",
         "review_count": 987,
         "yelping_since": "2009-02-09 16:14:29",
         "useful": 7234,
         "funny": 4722,
         "cool": 4035,
-        "friends": "zczcacasdasdq",
+        "friends": "orange, pear",
         "fans": 420,
         "average_stars": 3.77
     },
     {
-        "user_id": "teehee",
-        "name": "Peep",
+        "user_id": "grape",
+        "name": "Grape",
         "review_count": 987,
         "yelping_since": "2009-02-09 16:14:29",
         "useful": 7234,
         "funny": 4722,
         "cool": 4035,
-        "friends": "zczcacasdasdq",
+        "friends": "orange",
         "fans": 420,
         "average_stars": 3.77
     }

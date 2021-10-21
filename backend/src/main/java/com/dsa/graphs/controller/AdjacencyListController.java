@@ -33,5 +33,4 @@ public class AdjacencyListController {
     public FriendSuggestionDTO addFriend(@RequestBody AddFriendDTO addFriendDTO) {
         return adjacencyListService.getFriendSuggestionsByBfs(addFriendDTO.getFromUser(), addFriendDTO.getToUser());
     }
-
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -71,6 +72,7 @@ public class NodeServiceImpl implements NodeService {
     /**
      * This method costs O(n) time complexity since the worst case is where the user
      * exist at the last element of the set
+     * 
      * @param userId String that represents user ID
      * @return User object that is being represented as a node
      */
@@ -90,6 +92,7 @@ public class NodeServiceImpl implements NodeService {
     /**
      * This method costs O(n) time complexity since the worst case is where
      * an user is friends with all other users (i.e. one vertex contains n edges)
+     * 
      * @param userId String that represents user ID
      * @return List of user objects that is being represented as nodes
      */
@@ -104,6 +107,7 @@ public class NodeServiceImpl implements NodeService {
 
         String[] targetUserFriendIdsList = targetUserFriendIds.split(",");
         List<User> targetUserFriends = new ArrayList<>();
+        System.out.println(Arrays.toString(targetUserFriendIdsList));
 
         for (String friendId : targetUserFriendIdsList) {
             targetUserFriends.add(getNode(friendId.strip()));

@@ -11,6 +11,12 @@ import org.springframework.stereotype.Component;
 public class AdjacencyList implements Graph {
     private Map<String, LinkedList<String>> adjacencyList = new HashMap<>();
 
+    /**
+     * This method is O(n) time complexity where it instantiates
+     * each vertex with an empty linked list.
+     * 
+     * @param nodes Collection of nodes that contain user data
+     */
     @Override
     public void createNodes(Set<User> nodes) {
         // for (User user : nodes) {
@@ -68,14 +74,15 @@ public class AdjacencyList implements Graph {
         adjacencyList.put(userId, new LinkedList<String>());        // put() method is O(1) time complexity
     }
 
-    // Overriden method from Graph interface but is  not applicable to this class
+    // Overriden method from Graph interface but is not applicable to this class
     @Override
     public void addNode(String userId, int index) { }
 
     public LinkedList<String> getNeighbours(String user) {
-        return adjacencyList.get(user);
+        return adjacencyList.get(user);                             // get() method is O(1) time complexity
     }
 
+    @Override
     public int getSize() {
         return adjacencyList.size();
     }

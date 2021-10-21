@@ -8,4 +8,5 @@ public interface Graph {
     void addNode(String userId);
     void addNode(String userId, int index);
     void addEdge(String fromUser, String toUser);
+    int getSize();
 }

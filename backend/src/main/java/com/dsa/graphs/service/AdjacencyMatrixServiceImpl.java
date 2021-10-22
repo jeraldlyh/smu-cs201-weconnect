@@ -59,8 +59,8 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
     }
 
     @Override
-    public AdjacencyMatrix getAdjacencyMatrix() {
-        if (adjacencyMatrix == null || adjacencyMatrix.getSize() == 0) {
+    public AdjacencyMatrix getAdjacencyMatrix(boolean create) {
+        if (create && (adjacencyMatrix == null || adjacencyMatrix.getSize() == 0)) {
             createAdjacencyMatrix();
         }
         return adjacencyMatrix;

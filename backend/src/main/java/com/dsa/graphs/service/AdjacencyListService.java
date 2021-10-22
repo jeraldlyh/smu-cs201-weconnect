@@ -6,7 +6,7 @@ import com.dsa.graphs.models.AdjacencyList;
 
 public interface AdjacencyListService {
     AdjacencyListDTO createAdjacencyList();
-    AdjacencyList getAdjacencyList();
+    AdjacencyList getAdjacencyList(boolean create);
     void deleteAdjacencyList();
     FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser);
 }

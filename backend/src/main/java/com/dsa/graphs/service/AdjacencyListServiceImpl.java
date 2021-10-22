@@ -54,8 +54,8 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
     }
 
     @Override
-    public AdjacencyList getAdjacencyList() {
-        if (adjacencyList.getSize() == 0) {
+    public AdjacencyList getAdjacencyList(boolean create) {
+        if (create && (adjacencyList == null || adjacencyList.getSize() == 0)) {
             createAdjacencyList();
         }
         return adjacencyList;

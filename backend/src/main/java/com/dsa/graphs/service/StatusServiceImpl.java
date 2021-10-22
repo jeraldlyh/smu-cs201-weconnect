@@ -20,8 +20,8 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public StatusDTO getStatus() {
-        AdjacencyList adjacencyList = adjacencyListService.getAdjacencyList();
-        AdjacencyMatrix adjacencyMatrix = adjacencyMatrixService.getAdjacencyMatrix();
+        AdjacencyList adjacencyList = adjacencyListService.getAdjacencyList(false);
+        AdjacencyMatrix adjacencyMatrix = adjacencyMatrixService.getAdjacencyMatrix(false);
         boolean adjacencyListStatus = true;
         boolean adjacencyMatrixStatus = true;
 

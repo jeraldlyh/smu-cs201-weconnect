@@ -5,11 +5,22 @@ import BoxCard from "../components/boxCard"
 import ProfileCard from "../components/profileCard"
 import { deleteAdjacencyList, generateAdjacencyList } from "src/actions/adjacencyList"
 import { deleteAdjacencyMatrix, generateAdjacencyMatrix } from "src/actions/adjacencyMatrix"
+import { getStatus } from "src/actions/status"
 
 
 export default function Home() {
     const [adjacencyListStatus, setAdjacencyListStatus] = useState(false)
     const [adjacencyMatrixStatus, setAdjacencyMatrixStatus] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        getStatus()
+            .then(response => {
+                setAdjacencyListStatus(response.data.adjacencyListStatus)
+                setAdjacencyMatrixStatus(response.data.adjacencyMatrixStatus)
+            })
+            .catch(error => console.log(error))
+    }, [])
 
     const adjacencyListStatusStyle = classnames({
         "w-4/5 justify-self-center": true,
@@ -33,6 +44,7 @@ export default function Home() {
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">
                     <BoxCard
                         title="Adjacency List"
+                        setIsLoading={setIsLoading}
                         generate={generateAdjacencyList}
                         remove={deleteAdjacencyList}
                         setStatus={setAdjacencyListStatus}
@@ -54,6 +66,7 @@ export default function Home() {
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">
                     <BoxCard
                         title="Adjacency Matrix"
+                        setIsLoading={setIsLoading}
                         generate={generateAdjacencyMatrix}
                         remove={deleteAdjacencyMatrix}
                         setStatus={setAdjacencyMatrixStatus}

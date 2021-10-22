@@ -1,26 +1,30 @@
 import { Fragment, useState } from "react"
 
 
-const BoxCard = ({ title, generate, remove, setStatus }) => {
+const BoxCard = ({ title, generate, remove, setStatus, setIsLoading }) => {
     const [timeTaken, setTimeTaken] = useState(0)
 
     const generateGraph = () => {
+        setIsLoading(true)
         generate()
             .then(response => {
                 if (response.status === 200) {
                     setStatus(true)
                     setTimeTaken(response.data.timeTaken)
                 }
+                setIsLoading(false)
             })
             .catch(error => console.log(error))
     }
 
     const deleteGraph = () => {
+        setIsLoading(true)
         remove()
             .then(response => {
                 if (response.status === 200) {
                     setStatus(false)
                 }
+                setIsLoading(false)
             })
             .catch(error => console.log(error))
     }

@@ -34,7 +34,7 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
     @Override
     public AdjacencyListDTO createAdjacencyList() {
         // Check if adjacencyList has been previous created
-        if (adjacencyList.getSize() != 0) {
+        if (adjacencyList != null && adjacencyList.getSize() != 0) {
             return new AdjacencyListDTO(adjacencyList, 0);
         }
 

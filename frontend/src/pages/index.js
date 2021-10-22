@@ -13,6 +13,7 @@ export default function Home() {
     const [adjacencyListStatus, setAdjacencyListStatus] = useState(false)
     const [adjacencyMatrixStatus, setAdjacencyMatrixStatus] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [users, setUsers] = useState([])
 
     useEffect(() => {
         getStatus()

@@ -6,6 +6,7 @@ import ProfileCard from "../components/profileCard"
 import { deleteAdjacencyList, generateAdjacencyList } from "src/actions/adjacencyList"
 import { deleteAdjacencyMatrix, generateAdjacencyMatrix } from "src/actions/adjacencyMatrix"
 import { getStatus } from "src/actions/status"
+import { PuffLoader } from "react-spinners"
 
 
 export default function Home() {
@@ -61,6 +62,15 @@ export default function Home() {
                         <span className="border-r">Adjacency Matrix</span>
                         <span className={adjacencyMatrixStatusStyle} />
                     </div>
+                    {
+                        isLoading
+                            ?
+                            <div className="flex w-full h-full items-center justify-center">
+                                <PuffLoader color={"white"} size={175} margin={2} />
+                            </div>
+                            :
+                            null
+                    }
                 </div>
 
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">

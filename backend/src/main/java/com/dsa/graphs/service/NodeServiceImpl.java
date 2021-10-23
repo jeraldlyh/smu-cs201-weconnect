@@ -1,15 +1,14 @@
 package com.dsa.graphs.service;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import com.dsa.graphs.models.User;
@@ -19,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,10 +36,9 @@ public class NodeServiceImpl implements NodeService {
     public void generateNodes() {
         try {
             LOGGER.info("------ STARTING TO GENERATE NODES");
-            // File resource = new ClassPathResource("data.json").getFile();
-            File resource = new File(NodeServiceImpl.class.getClassLoader().getResource("data.json").toURI());
-            // new ClassPathResource("data.json").getFile();
-            BufferedReader reader = new BufferedReader(new FileReader(resource));
+
+            InputStream inputStream = NodeServiceImpl.class.getClassLoader().getResourceAsStream("data.json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             User[] users = gson.fromJson(reader, User[].class);
 
             for (User user : users) {
@@ -60,8 +57,6 @@ public class NodeServiceImpl implements NodeService {
             }
             // System.out.println(nodes);
             LOGGER.info("------ SUCCESSFULLY GENERATED NODES");
-        } catch (IOException e) {
-            LOGGER.warn("------ FILE NOT FOUND");
         } catch (Exception e) {
             LOGGER.warn("------ UNEXPECTED ERROR: " + e.getMessage());
         }

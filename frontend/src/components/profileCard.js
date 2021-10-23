@@ -2,9 +2,8 @@ import { FaUserFriends, FaRegHandPeace } from "react-icons/fa"
 import { BiWinkSmile } from "react-icons/bi"
 import { AiOutlineStar } from "react-icons/ai"
 import { TiTickOutline } from "react-icons/ti"
-import moment from "moment"
 
-const ProfileCard = ({ name, friends, funny, cool, star, useful, joined }) => {
+const ProfileCard = ({ name, fans, funny, cool, star, useful, joined }) => {
     return (
         <div className="flex flex-col w-56 h-56 border-2 border-white rounded-3xl overflow-hidden">
             {/* Profile Image */}
@@ -19,14 +18,14 @@ const ProfileCard = ({ name, friends, funny, cool, star, useful, joined }) => {
                     </div>
                     <div className="flex items-center">
                         <span className="text-xs">Joined at:&nbsp;</span>
-                        <span>{joined ? moment(joined) : "Unknown"}</span>
+                        <span>{joined ? joined : "Unknown"}</span>
                     </div>
                 </div>
                 <div className="flex w-full justify-between">
                     {/* Fans Attribute */}
                     <div className="flex flex-col items-center">
                         <FaUserFriends />
-                        {friends ? friends : 0}
+                        {fans ? fans : 0}
                     </div>
                     {/* Funny Attribute */}
                     <div className="flex flex-col items-center">

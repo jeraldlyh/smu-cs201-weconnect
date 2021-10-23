@@ -7,6 +7,7 @@ import { deleteAdjacencyList, generateAdjacencyList } from "src/actions/adjacenc
 import { deleteAdjacencyMatrix, generateAdjacencyMatrix } from "src/actions/adjacencyMatrix"
 import { getStatus } from "src/actions/status"
 import { PuffLoader } from "react-spinners"
+import { getRandomFriends } from "src/actions/friend"
 
 
 export default function Home() {
@@ -15,13 +16,31 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(false)
     const [users, setUsers] = useState([])
 
+    const getGraphStatus = async () => {
+        try {
+            const response = await getStatus()
+            setAdjacencyListStatus(response.data.adjacencyListStatus)
+            setAdjacencyMatrixStatus(response.data.adjacencyMatrixStatus)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getRandomTenFriends = async () => {
+        try {
+            setIsLoading(true)
+            const response = await getRandomFriends()
+            setUsers(response.data)
+            console.log(response)
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
-        getStatus()
-            .then(response => {
-                setAdjacencyListStatus(response.data.adjacencyListStatus)
-                setAdjacencyMatrixStatus(response.data.adjacencyMatrixStatus)
-            })
-            .catch(error => console.log(error))
+        getGraphStatus()
     }, [])
 
     const adjacencyListStatusStyle = classnames({
@@ -63,15 +82,19 @@ export default function Home() {
                         <span className="border-r">Adjacency Matrix</span>
                         <span className={adjacencyMatrixStatusStyle} />
                     </div>
-                    {
-                        isLoading
-                            ?
-                            <div className="flex w-full h-full items-center justify-center">
-                                <PuffLoader color={"white"} size={175} margin={2} />
-                            </div>
-                            :
-                            null
-                    }
+                    <div className="flex w-full h-full items-center justify-center">
+                        {
+                            isLoading
+                                ? <PuffLoader color={"white"} size={175} margin={2} />
+                                : null
+                        }
+                    </div>
+                    <button
+                        className="w-full rounded-lg py-2 px-4 hover:bg-yellow-400 uppercase text-xl font-medium tracking-wide"
+                        onClick={getRandomTenFriends}
+                    >
+                        Find Random Friends
+                    </button>
                 </div>
 
                 <div className="flex flex-col w-2/5 p-3 items-center space-y-3">
@@ -85,7 +108,25 @@ export default function Home() {
                 </div>
             </div>
             <div className="flex h-1/3 overflow-auto">
-                <ProfileCard />
+                {
+                    users && users.length !== 0
+                        ? users.map(user => {
+                            console.log(user)
+                            return <ProfileCard
+                                key={user.user_id}
+                                name={user.name}
+                                fans={user.fans}
+                                // friends=
+                                funny={user.funny}
+                                cool={user.cool}
+                                star={user.average_stars}
+                                useful={user.useful}
+                                joined={user.yelping_since}
+                            />
+                        })
+
+                        : null
+                }
             </div>
         </div>
     )

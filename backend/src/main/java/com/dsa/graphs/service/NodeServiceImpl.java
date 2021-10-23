@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.dsa.graphs.models.User;
@@ -130,5 +131,29 @@ public class NodeServiceImpl implements NodeService {
         }
 
         return targetUserFriends;
+    }
+
+    /**
+     * This method retrieves 10 random users from the set of nodes
+     */
+    @Override
+    public List<User> getRandomNodes() {
+        List<User> randomUsers = new ArrayList<>();
+        Random random = new Random();
+        int randomIndex = random.nextInt(nodes.size());
+        int index = 0;
+
+        for (User user: nodes) {
+            if (randomUsers.size() == 10) {
+                break;
+            }
+
+            if (index == randomIndex) {
+                randomUsers.add(user);
+            }
+            index++;
+            randomIndex = random.nextInt(nodes.size());
+        }
+        return randomUsers;
     }
 }

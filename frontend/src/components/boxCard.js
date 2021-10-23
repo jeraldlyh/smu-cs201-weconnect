@@ -4,29 +4,33 @@ import { Fragment, useState } from "react"
 const BoxCard = ({ title, generate, remove, setStatus, setIsLoading }) => {
     const [timeTaken, setTimeTaken] = useState(0)
 
-    const generateGraph = () => {
-        setIsLoading(true)
-        generate()
-            .then(response => {
-                if (response.status === 200) {
-                    setStatus(true)
-                    setTimeTaken(response.data.timeTaken)
-                }
-                setIsLoading(false)
-            })
-            .catch(error => console.log(error))
+    const generateGraph = async () => {
+        try {
+            setIsLoading(true)
+            const response = await generate()
+            if (response.status === 200) {
+                setStatus(true)
+                setTimeTaken(response.data.timeTaken)
+            }
+            setIsLoading(false)
+        } catch (error) {
+            console.log(error)
+            setIsLoading(false)
+        }
     }
 
-    const deleteGraph = () => {
-        setIsLoading(true)
-        remove()
-            .then(response => {
-                if (response.status === 200) {
-                    setStatus(false)
-                }
-                setIsLoading(false)
-            })
-            .catch(error => console.log(error))
+    const deleteGraph = async () => {
+        try {
+            setIsLoading(true)
+            const response = await remove()
+            if (response.status === 200) {
+                setStatus(false)
+            }
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error)
+        }
     }
 
     return (

@@ -48,7 +48,7 @@ export default function Home() {
     const addFriend = async (toUser, graphType) => {
         try {
             // Check if environment is in testing or production mode and set username according to the dataset used
-            const fromUser = process.env.NODE_ENV === "development" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
+            const fromUser = process.env.NODE_ENV === "production" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
             setIsLoading(true)
             const response = await addFriends(fromUser, toUser, graphType)
             setUsers(response.data.friendSuggestions)
@@ -137,15 +137,15 @@ export default function Home() {
                     />
                 </div>
             </div>
-            <div className="flex h-1/3 overflow-auto">
+            <div className="flex mt-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full space-x-3">
                 {
                     users && users.length !== 0
                         ? users.map(user => {
-                            const currentUser = process.env.NODE_ENV === "development" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
+                            const currentUser = process.env.NODE_ENV === "production" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
                             // const userFriends = user.friends.split(",")
 
                             // Do not display current user
-                            if (user.user_id === currentUser) {
+                            if (!user || user.user_id === currentUser) {
                                 return null
                             }
                             return <ProfileCard

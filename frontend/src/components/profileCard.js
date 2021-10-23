@@ -5,7 +5,7 @@ import { TiTickOutline } from "react-icons/ti"
 
 const ProfileCard = ({ name, fans, funny, cool, star, useful, joined, addFriendList, addFriendMatrix }) => {
     return (
-        <div className="flex flex-col h-56 border-2 border-white rounded-3xl overflow-hidden">
+        <div className="flex flex-col h-56 w-1/5 border-2 border-white rounded-3xl overflow-hidden">
             {/* Profile Image */}
             {/* <img className="flex object-cover" src="https://picsum.photos/200/" /> */}
 
@@ -44,11 +44,11 @@ const ProfileCard = ({ name, fans, funny, cool, star, useful, joined, addFriendL
                         {useful ? useful : 0}
                     </div>
                 </div>
-                <div className="flex items-center space-x-1">
-                    <button className="rounded-lg py-2 px-4 hover:bg-blue-400 uppercase font-medium" onClick={addFriendList}>
+                <div className="flex items-center justify-between space-x-1">
+                    <button className="rounded-lg w-1/2 py-2 px-4 hover:bg-blue-400 uppercase font-medium" onClick={addFriendList}>
                         Add Friend (List)
                     </button>
-                    <button className="rounded-lg py-2 px-4 hover:bg-purple-400 uppercase font-medium" onClick={addFriendMatrix}>
+                    <button className="rounded-lg w-1/2 py-2 px-4 hover:bg-purple-400 uppercase font-medium" onClick={addFriendMatrix}>
                         Add Friend (Matrix)
                     </button>
                 </div>

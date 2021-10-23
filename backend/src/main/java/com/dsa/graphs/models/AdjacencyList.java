@@ -1,16 +1,47 @@
 package com.dsa.graphs.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class AdjacencyList {
+public class AdjacencyList implements Graph {
     private Map<String, LinkedList<String>> adjacencyList = new HashMap<>();
 
+    /**
+     * This method is O(|V|) time complexity where it instantiates
+     * each vertex with an empty linked list.
+     * 
+     * @param nodes Collection of nodes that contain user data
+     */
+    @Override
+    public void createVertices(Set<User> nodes) {
+        // for (User user : nodes) {
+        //     String friends = user.getFriends();
+
+        //     if (friends != null) {
+        //         String[] listOfFriends = user.getFriends().split(",");
+
+        //         for (String friendID : listOfFriends) {
+        //             if (!friendID.isEmpty()) { // Prevent adding empty vertices
+        //                 addNode(friendID.strip());
+        //             }
+        //         }
+        //     }
+        //     addNode(user.getUser_id().strip());
+        // }
+        for (User user : nodes) {
+            addVertex(user.getUser_id().strip());
+        }
+    }
+
+    @Override
     public void createEdges(Set<User> nodes) {
         for (User user : nodes) {
             String friends = user.getFriends();
@@ -28,48 +59,60 @@ public class AdjacencyList {
         }
     }
 
-    public void createNodes(Set<User> nodes) {
-        // for (User user : nodes) {
-        //     String friends = user.getFriends();
+    public void updateLinkedList(String fromUser, String toUser) {
+        LinkedList<String> userFriends = adjacencyList.get(fromUser);
+        if (userFriends != null) {
+            // Store a boolean to check if user already exists in the linkedList
+            boolean isExist = false;
+            Iterator<String> userFriendsIter = userFriends.iterator();
 
-        //     if (friends != null) {
-        //         String[] listOfFriends = user.getFriends().split(",");
-
-        //         for (String friendID : listOfFriends) {
-        //             if (!friendID.isEmpty()) { // Prevent adding empty vertices
-        //                 addNode(friendID.strip());
-        //             }
-        //         }
-        //     }
-        //     addNode(user.getUser_id().strip());
-        // }
-        for (User user : nodes) {
-            addNode(user.getUser_id().strip());
+            // This loop is O(|V|) time complexity as the worst case is where
+            // the linkedList has to look through all the vertices (i.e. all users) stored inside
+            while (userFriendsIter.hasNext()) {
+                if (userFriendsIter.next().equals(toUser)) {
+                    isExist = true;
+                    break;
+                }
+            }
+            if (!isExist) userFriends.add(toUser);            // add() is O(1) time complexity
         }
     }
 
+    /**
+     * This method is O(|V|) as it has to search if there's a duplicate node
+     */
+    @Override
     public void addEdge(String fromUser, String toUser) {
-        LinkedList<String> fromUserFriends = adjacencyList.get(fromUser);
-        if (fromUserFriends != null) {
-            fromUserFriends.add(toUser);
+        updateLinkedList(fromUser, toUser);
+        updateLinkedList(toUser, fromUser);
+    }
+
+    @Override
+    public void addVertex(String userId) {
+        adjacencyList.put(userId, new LinkedList<String>());        // put() method is O(1) time complexity
+    }
+
+    // Overriden method from Graph interface but is not applicable to this class
+    @Override
+    public void addVertex(String userId, int index) { }
+
+    // This method is O(n) time complexity where it converts a LinkedList to ArrayList
+    public List<String> getNeighbours(String user) {
+        LinkedList<String> neighbours = adjacencyList.get(user);
+        if (neighbours == null) {
+            return null;
         }
-
-        LinkedList<String> toUserFriends = adjacencyList.get(toUser);
-        if (toUserFriends != null) {
-            toUserFriends.add(fromUser);
-        }
+        return new ArrayList<>(adjacencyList.get(user));    // get() method is O(1) time complexity
     }
 
-    public void addNode(String userID) {
-        adjacencyList.put(userID, new LinkedList<String>());
-    }
-
-    public LinkedList<String> getNeighbours(String user) {
-        return adjacencyList.get(user);
-    }
-
+    @Override
     public int getSize() {
         return adjacencyList.size();
+    }
+
+    @Override
+    public void delete() {
+        adjacencyList.clear();
     }
 
     public Map<String, LinkedList<String>> getAdjacencyList() {

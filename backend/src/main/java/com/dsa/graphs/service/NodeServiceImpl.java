@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.dsa.graphs.models.User;
@@ -36,7 +38,9 @@ public class NodeServiceImpl implements NodeService {
     public void generateNodes() {
         try {
             LOGGER.info("------ STARTING TO GENERATE NODES");
-            File resource = new ClassPathResource("data.json").getFile();
+            // File resource = new ClassPathResource("data.json").getFile();
+            File resource = new File(NodeServiceImpl.class.getClassLoader().getResource("data.json").toURI());
+            // new ClassPathResource("data.json").getFile();
             BufferedReader reader = new BufferedReader(new FileReader(resource));
             User[] users = gson.fromJson(reader, User[].class);
 
@@ -54,7 +58,7 @@ public class NodeServiceImpl implements NodeService {
                 //     }
                 // }
             }
-            System.out.println(nodes);
+            // System.out.println(nodes);
             LOGGER.info("------ SUCCESSFULLY GENERATED NODES");
         } catch (IOException e) {
             LOGGER.warn("------ FILE NOT FOUND");
@@ -71,6 +75,7 @@ public class NodeServiceImpl implements NodeService {
     /**
      * This method costs O(n) time complexity since the worst case is where the user
      * exist at the last element of the set
+     * 
      * @param userId String that represents user ID
      * @return User object that is being represented as a node
      */
@@ -90,6 +95,7 @@ public class NodeServiceImpl implements NodeService {
     /**
      * This method costs O(n) time complexity since the worst case is where
      * an user is friends with all other users (i.e. one vertex contains n edges)
+     * 
      * @param userId String that represents user ID
      * @return List of user objects that is being represented as nodes
      */
@@ -108,6 +114,42 @@ public class NodeServiceImpl implements NodeService {
         for (String friendId : targetUserFriendIdsList) {
             targetUserFriends.add(getNode(friendId.strip()));
         }
+        // System.out.println(targetUserFriends);
         return targetUserFriends;
+    }
+
+    /**
+     * This method is O(n^2) time complexity where the worst case is the input list 
+     * contains all edges (i.e. n) and getNode() method is O(n) time complexity
+     * 
+     * @param userIds List of userIds
+     * @return List of users objects that is represented as nodes
+     */
+    @Override
+    public List<User> getListOfNodes(List<String> userIds) {
+        List<User> targetUserFriends = new ArrayList<>();
+
+        for (String userId: userIds) {
+            targetUserFriends.add(getNode(userId));
+        }
+
+        return targetUserFriends;
+    }
+
+    /**
+     * This method retrieves 10 random users from the set of nodes
+     */
+    @Override
+    public List<User> getRandomNodes() {
+        List<User> randomUsers = new ArrayList<>();
+        List<User> userList = new ArrayList<>(nodes);
+        Collections.shuffle(userList);                  // O(n) time complexity where we swap every element with another element
+        int count = 9;
+
+        for (int i = 0; i < userList.size(); i++) {
+            if (i == count) break;
+            randomUsers.add(userList.get(i));
+        }
+        return randomUsers;
     }
 }

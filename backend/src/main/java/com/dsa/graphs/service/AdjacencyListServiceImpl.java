@@ -67,12 +67,13 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
      * some way or another. Instead of traversing from the starting node only, we'll traverse 
      * every single unvisited node.
      * 
-     * @param fromUser User specifying the request
+     * @param fromUser User in the graph
      * @param toUser Specified user that the caller wishes to add
      * @param visted List that contains visited vertices
+     * @param originalUser User that is specifying the request
      * @return List of suggested friends
      */
-    public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser, List<String> visited) {
+    public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser, List<String> visited, String originalUser) {
         Queue<String> queue = new LinkedList<String>();     // Create a queue to store vertices that has an edge connected to current vertex and have yet to visit
         int degreeOfRelationship = 0;                       // Create an integer to check how deep are the connections from the user to another specified user
 
@@ -83,8 +84,8 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
 
         while(queue.size() != 0) {
             // Dequeue the vertex from the queue
-            String vertex = queue.poll();
-            List<String> adjacentVertices = adjacencyList.getNeighbours(vertex);
+            String userId = queue.poll();
+            List<String> adjacentVertices = adjacencyList.getNeighbours(userId);
 
             if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
 
@@ -100,6 +101,19 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
                             LOGGER.info("------ USER DOES NOT EXIST IN GRAPH");
                             return null;
                         }
+
+                        // Establish an relationship between the users within BFS so that 
+                        // we are able to obtain the updated adjacent nodes
+                        LOGGER.info("------ FRIENDSHIP FORMED: " + originalUser + " | " + toUser);
+                        adjacencyList.addEdge(originalUser, toUser);
+
+                        // Removes the set difference between user's existing friend and target user's friend
+                        // removeAll() is O(n * m) where ArrayList contains() method is O(n)
+                        List<String> fromUserAdjacentVertices = adjacencyList.getNeighbours(originalUser);
+                        System.out.println(fromUserAdjacentVertices);
+                        System.out.println(adjacentVertices);
+                        adjacentVertices.removeAll(fromUserAdjacentVertices);
+                        
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + targetUser);
                         return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVertices), degreeOfRelationship);
                     }
@@ -141,15 +155,13 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
 
         for (String user: data.keySet()) {
             if (!visited.contains(user)) {
-                result = getFriendSuggestionsByBfs(user, toUser, visited);
+                result = getFriendSuggestionsByBfs(user, toUser, visited, fromUser);
 
                 if (result != null) {       // Exit once user has been found
                     break;
                 }
             }
         }
-        // Establish an relationship between the users after BFS
-        adjacencyList.addEdge(fromUser, toUser);
 
         if (result == null) {
             result = new FriendSuggestionDTO(null, 0);

@@ -72,6 +72,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
      * 1. It adds an edge between the vertices
      * 2. Searches through each row of the matrix and add adjacent vertex that has an edge into the queue to traverse subsequently.
      * 3. It then adds the traversed node into a visited array to ensure that it does not get traversed again.
+     * 4. When a result is found, return the set difference between the current user friends and the target user friends to prevent duplicates
      * 
      * @param fromUser String representing the userId of the caller
      * @param toUser String representing the userId of specified user
@@ -113,10 +114,16 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
                         // getAdjacentVerticesId() is O(|V|) time complexity
                         List<String> adjacentVerticesId = getAdjacentVerticesId(matrix, i);
+                        List<String> fromUserAdjacentVerticesId = getAdjacentVerticesId(matrix, adjacencyMatrix.getIndexByUserId(fromUser));
+                        
+                        // Removes the set difference between user's existing friend and target user's friend
+                        // removeAll() is O(n * m) where ArrayList contains() method is O(n)
+                        adjacentVerticesId.removeAll(fromUserAdjacentVerticesId);
 
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + adjacentUserId);
 
                         // Establish an relationship between the users after BFS
+                        LOGGER.info("------ FRIENDSHIP FORMED: " + fromUser + " | " + toUser);
                         adjacencyMatrix.addEdge(fromUser, toUser);
 
                         // getListOfNodes() is O(|V|^2) time complexity
@@ -137,6 +144,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
             degreeOfRelationship++;
         }
         // Establish an relationship between the users after BFS
+        LOGGER.info("------ FRIENDSHIP FORMED: " + fromUser + " | " + toUser);
         adjacencyMatrix.addEdge(fromUser, toUser);
 
         LOGGER.info("------ NO USER FOUND AT THE END OF BFS FOR ADJACENCY MATRIX");

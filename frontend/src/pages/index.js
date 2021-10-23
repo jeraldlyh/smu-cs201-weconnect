@@ -142,7 +142,10 @@ export default function Home() {
                     users && users.length !== 0
                         ? users.map(user => {
                             const currentUser = process.env.NODE_ENV === "development" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
-                            if (user.user_id === currentUser) {     // Do not display current user
+                            // const userFriends = user.friends.split(",")
+
+                            // Do not display current user
+                            if (user.user_id === currentUser) {
                                 return null
                             }
                             return <ProfileCard

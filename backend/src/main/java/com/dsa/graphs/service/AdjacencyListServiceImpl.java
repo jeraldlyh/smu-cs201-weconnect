@@ -110,8 +110,6 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
                         // Removes the set difference between user's existing friend and target user's friend
                         // removeAll() is O(n * m) where ArrayList contains() method is O(n)
                         List<String> fromUserAdjacentVertices = adjacencyList.getNeighbours(originalUser);
-                        System.out.println(fromUserAdjacentVertices);
-                        System.out.println(adjacentVertices);
                         adjacentVertices.removeAll(fromUserAdjacentVertices);
                         
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + targetUser);

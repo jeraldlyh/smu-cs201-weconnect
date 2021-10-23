@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +38,9 @@ public class NodeServiceImpl implements NodeService {
     public void generateNodes() {
         try {
             LOGGER.info("------ STARTING TO GENERATE NODES");
-            File resource = new ClassPathResource("data.json").getFile();
+            // File resource = new ClassPathResource("data.json").getFile();
+            File resource = new File(NodeServiceImpl.class.getClassLoader().getResource("data.json").toURI());
+            // new ClassPathResource("data.json").getFile();
             BufferedReader reader = new BufferedReader(new FileReader(resource));
             User[] users = gson.fromJson(reader, User[].class);
 
@@ -139,20 +142,13 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public List<User> getRandomNodes() {
         List<User> randomUsers = new ArrayList<>();
-        Random random = new Random();
-        int randomIndex = random.nextInt(nodes.size());
-        int index = 0;
+        List<User> userList = new ArrayList<>(nodes);
+        Collections.shuffle(userList);                  // O(n) time complexity where we swap every element with another element
+        int count = 9;
 
-        for (User user: nodes) {
-            if (randomUsers.size() == 10) {
-                break;
-            }
-
-            if (index == randomIndex) {
-                randomUsers.add(user);
-            }
-            index++;
-            randomIndex = random.nextInt(nodes.size());
+        for (int i = 0; i < userList.size(); i++) {
+            if (i == count) break;
+            randomUsers.add(userList.get(i));
         }
         return randomUsers;
     }

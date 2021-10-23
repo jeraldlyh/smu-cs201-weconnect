@@ -7,7 +7,7 @@ import { deleteAdjacencyList, generateAdjacencyList } from "src/actions/adjacenc
 import { deleteAdjacencyMatrix, generateAdjacencyMatrix } from "src/actions/adjacencyMatrix"
 import { getStatus } from "src/actions/status"
 import { PuffLoader } from "react-spinners"
-import { getRandomFriends } from "src/actions/friend"
+import { addFriends, getRandomFriends } from "src/actions/friend"
 
 
 export default function Home() {
@@ -15,6 +15,12 @@ export default function Home() {
     const [adjacencyMatrixStatus, setAdjacencyMatrixStatus] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [users, setUsers] = useState([])
+    const [timeTakenAdjacencyList, setTimeTakenAdjacencyList] = useState(0)
+    const [timeTakenAdjacencyMatrix, setTimeTakenAdjacencyMatrix] = useState(0)
+
+    useEffect(() => {
+        getGraphStatus()
+    }, [])
 
     const getGraphStatus = async () => {
         try {
@@ -39,9 +45,29 @@ export default function Home() {
         }
     }
 
-    useEffect(() => {
-        getGraphStatus()
-    }, [])
+    const addFriend = async (toUser, graphType) => {
+        try {
+            // Check if environment is in testing or production mode and set username according to the dataset used
+            const fromUser = process.env.NODE_ENV === "development" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
+            setIsLoading(true)
+            const response = await addFriends(fromUser, toUser, graphType)
+            setUsers(response.data.friendSuggestions)
+
+            if (graphType === "list") {
+                setAdjacencyListStatus(true)
+                setTimeTakenAdjacencyList(response.data.timeTaken)
+            } else {
+                setAdjacencyMatrixStatus(true)
+                setTimeTakenAdjacencyMatrix(response.data.timeTaken)
+            }
+
+            console.log(response)
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error)
+        }
+    }
 
     const adjacencyListStatusStyle = classnames({
         "w-4/5 justify-self-center": true,
@@ -69,6 +95,8 @@ export default function Home() {
                         generate={generateAdjacencyList}
                         remove={deleteAdjacencyList}
                         setStatus={setAdjacencyListStatus}
+                        timeTaken={timeTakenAdjacencyList}
+                        setTimeTaken={setTimeTakenAdjacencyList}
                     />
                 </div>
 
@@ -104,6 +132,8 @@ export default function Home() {
                         generate={generateAdjacencyMatrix}
                         remove={deleteAdjacencyMatrix}
                         setStatus={setAdjacencyMatrixStatus}
+                        timeTaken={timeTakenAdjacencyMatrix}
+                        setTimeTaken={setTimeTakenAdjacencyMatrix}
                     />
                 </div>
             </div>
@@ -111,20 +141,23 @@ export default function Home() {
                 {
                     users && users.length !== 0
                         ? users.map(user => {
-                            console.log(user)
+                            const currentUser = process.env.NODE_ENV === "development" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
+                            if (user.user_id === currentUser) {     // Do not display current user
+                                return null
+                            }
                             return <ProfileCard
                                 key={user.user_id}
                                 name={user.name}
                                 fans={user.fans}
-                                // friends=
                                 funny={user.funny}
                                 cool={user.cool}
                                 star={user.average_stars}
                                 useful={user.useful}
                                 joined={user.yelping_since}
+                                addFriendList={() => addFriend(user.user_id, "list")}         // Hardcore current user as Gabi
+                                addFriendMatrix={() => addFriend(user.user_id, "matrix")}     // Hardcore current user as Gabi
                             />
                         })
-
                         : null
                 }
             </div>

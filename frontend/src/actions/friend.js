@@ -10,3 +10,17 @@ export const getRandomFriends = () => {
         }
     })
 }
+
+export const addFriends = (fromUser, toUser, graphType) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await axiosInstance.post(`/adjacency-${graphType}`, {
+                fromUser: fromUser,
+                toUser: toUser
+            })
+            resolve(response)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}

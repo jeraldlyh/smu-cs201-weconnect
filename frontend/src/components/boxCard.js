@@ -1,9 +1,7 @@
 import { Fragment, useState } from "react"
 
 
-const BoxCard = ({ title, generate, remove, setStatus, setIsLoading }) => {
-    const [timeTaken, setTimeTaken] = useState(0)
-
+const BoxCard = ({ title, generate, remove, setStatus, setIsLoading, timeTaken, setTimeTaken }) => {
     const generateGraph = async () => {
         try {
             setIsLoading(true)

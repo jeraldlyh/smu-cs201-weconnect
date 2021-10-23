@@ -29,6 +29,7 @@ public class AdjacencyListController {
 
     @PostMapping("/adjacency-list")
     public FriendSuggestionDTO addFriend(@RequestBody AddFriendDTO addFriendDTO) {
+        System.out.println(addFriendDTO);
         return adjacencyListService.getFriendSuggestionsByBfs(addFriendDTO.getFromUser(), addFriendDTO.getToUser());
     }
 

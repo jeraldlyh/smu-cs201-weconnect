@@ -137,7 +137,7 @@ export default function Home() {
                     />
                 </div>
             </div>
-            <div className="flex mt-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full space-x-3">
+            <div className="flex flex-wrap justify-around mt-2 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
                 {
                     users && users.length !== 0
                         ? users.map(user => {

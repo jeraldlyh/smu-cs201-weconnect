@@ -2,10 +2,25 @@ import { FaUserFriends, FaRegHandPeace } from "react-icons/fa"
 import { BiWinkSmile } from "react-icons/bi"
 import { AiOutlineStar } from "react-icons/ai"
 import { TiTickOutline } from "react-icons/ti"
+import classnames from "classnames"
+import _ from "lodash"
+
 
 const ProfileCard = ({ name, fans, funny, cool, star, useful, joined, addFriendList, addFriendMatrix }) => {
+    const RANDOM_NUMBER = _.random(0, 5)
+
+    const style = classnames({
+        "flex flex-col h-56 max-w-max border-2 rounded-3xl overflow-hidden": true,
+        "border-blue-300": RANDOM_NUMBER == 0,
+        "border-red-300": RANDOM_NUMBER == 1,
+        "border-purple-300": RANDOM_NUMBER == 2,
+        "border-yellow-300": RANDOM_NUMBER == 3,
+        "border-green-300": RANDOM_NUMBER == 4,
+        "border-white": RANDOM_NUMBER == 5,
+    })
+
     return (
-        <div className="flex flex-col h-56 w-1/5 border-2 border-white rounded-3xl overflow-hidden">
+        <div className={style}>
             {/* Profile Image */}
             {/* <img className="flex object-cover" src="https://picsum.photos/200/" /> */}
 
@@ -44,12 +59,14 @@ const ProfileCard = ({ name, fans, funny, cool, star, useful, joined, addFriendL
                         {useful ? useful : 0}
                     </div>
                 </div>
-                <div className="flex items-center justify-between space-x-1">
-                    <button className="rounded-lg w-1/2 py-2 px-4 hover:bg-blue-400 uppercase font-medium" onClick={addFriendList}>
-                        Add Friend (List)
+                <div className="flex w-full items-center justify-between space-x-1">
+                    <button className="flex flex-col items-center rounded-lg w-1/2 py-2 px-4 hover:bg-blue-400 uppercase font-medium" onClick={addFriendList}>
+                        <span>Add Friend</span>
+                        <span>(List)</span>
                     </button>
-                    <button className="rounded-lg w-1/2 py-2 px-4 hover:bg-purple-400 uppercase font-medium" onClick={addFriendMatrix}>
-                        Add Friend (Matrix)
+                    <button className="flex flex-col items-center rounded-lg w-1/2 py-2 px-4 hover:bg-purple-400 uppercase font-medium" onClick={addFriendMatrix}>
+                        <span>Add Friend</span>
+                        <span>(Matrix)</span>
                     </button>
                 </div>
             </div>

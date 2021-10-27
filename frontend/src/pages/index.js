@@ -23,7 +23,7 @@ export default function Home() {
     const [errorMessage, setErrorMessage] = useState("")
 
     // Hardcode user as Gab
-    const LOGGED_USER = process.env.NODE_ENV === "a" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
+    const LOGGED_USER = process.env.NODE_ENV === "development" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
 
     useEffect(() => {
         getGraphStatus()

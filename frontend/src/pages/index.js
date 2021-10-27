@@ -168,13 +168,8 @@ export default function Home() {
                     <div className="flex w-full h-full items-center justify-center">
                         {
                             isLoading
-                                ? <PuffLoader color={"white"} size={150} margin={2} />
-                                : <button
-                                    className="w-full rounded-lg py-2 px-4 hover:bg-yellow-400 uppercase text-xl font-medium tracking-wide"
-                                    onClick={getRandomTenFriends}
-                                >
-                                    Find Random Friends
-                                </button>
+                                ? <PuffLoader color={"white"} size={130} margin={2} />
+                                : null
                         }
                         {
                             errorMessage
@@ -182,6 +177,12 @@ export default function Home() {
                                 : null
                         }
                     </div>
+                    <button
+                        className="w-full rounded-lg py-2 px-4 hover:bg-yellow-400 uppercase text-xl font-medium tracking-wide"
+                        onClick={getRandomTenFriends}
+                    >
+                        Find Random Friends
+                    </button>
                 </div>
             </div>
             <div className="flex flex-wrap justify-around mt-2 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">

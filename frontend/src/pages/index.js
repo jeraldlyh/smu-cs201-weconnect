@@ -77,8 +77,8 @@ export default function Home() {
             setIsLoading(false)
             if (error.status === 500) {
                 setErrorMessage("Something bad went wrong")
-            } else if (error.message.includes("30000")){
-                setErrorMessage("The operation took more than 30 seconds")
+            } else if (error.message.includes("60000")){
+                setErrorMessage("The operation took more than 60 seconds")
             }
             console.log(error)
         }

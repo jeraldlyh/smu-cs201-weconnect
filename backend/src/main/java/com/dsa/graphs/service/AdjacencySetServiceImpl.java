@@ -20,13 +20,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdjacencySetImpl implements AdjacencySetService {
-    private static final Logger LOGGER = LogManager.getLogger(AdjacencySetImpl.class);
+public class AdjacencySetServiceImpl implements AdjacencySetService {
+    private static final Logger LOGGER = LogManager.getLogger(AdjacencySetServiceImpl.class);
 
     private AdjacencySet adjacencySet;
     private NodeService nodeService;
 
-    public AdjacencySetImpl(NodeService nodeService, AdjacencySet adjacencyListSet) {
+    public AdjacencySetServiceImpl(NodeService nodeService, AdjacencySet adjacencyListSet) {
         this.nodeService = nodeService;
         this.adjacencySet = adjacencyListSet;
     }
@@ -113,7 +113,6 @@ public class AdjacencySetImpl implements AdjacencySetService {
                         adjacentVertices.removeAll(fromUserAdjacentVertices);
                         
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + targetUser);
-                        System.out.println(adjacencySet);
                         return new FriendSuggestionDTO(nodeService.getListOfNodes(new ArrayList<>(adjacentVertices)), degreeOfRelationship);
                     }
 

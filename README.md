@@ -6,6 +6,7 @@ Algorithmic friend finder application that returns the list of suggested friends
 This application compares the differences between using two different data structures, namely:
 - Adjacency Matrix
 - Adjacency List
+- Adjacenct Set
 
 References can be found [here](https://www.baeldung.com/java-graphs)
 

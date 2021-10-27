@@ -20,9 +20,10 @@ export default function Home() {
     const [timeTakenAdjacencyList, setTimeTakenAdjacencyList] = useState(0)
     const [timeTakenAdjacencyMatrix, setTimeTakenAdjacencyMatrix] = useState(0)
     const [timeTakenAdjacencySet, setTimeTakenAdjacencySet] = useState(0)
+    const [errorMessage, setErrorMessage] = useState("")
 
     // Hardcode user as Gab
-    const LOGGED_USER = process.env.NODE_ENV === "development" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
+    const LOGGED_USER = process.env.NODE_ENV === "a" ? "apple" : "dIIKEfOgo0KqUfGQvGikPg"
 
     useEffect(() => {
         getGraphStatus()
@@ -33,8 +34,7 @@ export default function Home() {
             const response = await getStatus()
             setAdjacencyListStatus(response.data.adjacencyListStatus)
             setAdjacencyMatrixStatus(response.data.adjacencyMatrixStatus)
-            //TODO
-            // setAdjacencySetStatus(response.data.adjacencySetStatus)
+            setAdjacencySetStatus(response.data.adjacencySetStatus)
         } catch (error) {
             console.log(error)
         }
@@ -75,6 +75,11 @@ export default function Home() {
             setIsLoading(false)
         } catch (error) {
             setIsLoading(false)
+            if (error.status === 500) {
+                setErrorMessage("Something bad went wrong")
+            } else if (error.message.includes("30000")){
+                setErrorMessage("The operation took more than 30 seconds")
+            }
             console.log(error)
         }
     }
@@ -97,6 +102,11 @@ export default function Home() {
         "bg-red-400": !adjacencySetStatus,
     })
 
+    const createFriendship = (userId, graphType) => {
+        setErrorMessage("")     // Reset error message
+        addFriend(userId, graphType)
+    }
+
     return (
         <div className="flex flex-col min-h-screen py-2 bg-black text-white">
             <Head>
@@ -113,6 +123,7 @@ export default function Home() {
                         setStatus={setAdjacencyListStatus}
                         timeTaken={timeTakenAdjacencyList}
                         setTimeTaken={setTimeTakenAdjacencyList}
+                        setErrorMessage={setErrorMessage}
                     />
                 </div>
 
@@ -125,6 +136,7 @@ export default function Home() {
                         setStatus={setAdjacencyMatrixStatus}
                         timeTaken={timeTakenAdjacencyMatrix}
                         setTimeTaken={setTimeTakenAdjacencyMatrix}
+                        setErrorMessage={setErrorMessage}
                     />
                 </div>
 
@@ -137,6 +149,7 @@ export default function Home() {
                         setStatus={setAdjacencySetStatus}
                         timeTaken={timeTakenAdjacencySet}
                         setTimeTaken={setTimeTakenAdjacencySet}
+                        setErrorMessage={setErrorMessage}
                     />
                 </div>
 
@@ -156,6 +169,11 @@ export default function Home() {
                         {
                             isLoading
                                 ? <PuffLoader color={"white"} size={150} margin={2} />
+                                : null
+                        }
+                        {
+                            errorMessage
+                                ? <span className="font-bold uppercase text-red-500">{errorMessage}</span>
                                 : null
                         }
                     </div>
@@ -186,8 +204,9 @@ export default function Home() {
                                 star={user.average_stars}
                                 useful={user.useful}
                                 joined={user.yelping_since}
-                                addFriendList={() => addFriend(user.user_id, "list")}
-                                addFriendMatrix={() => addFriend(user.user_id, "matrix")}
+                                addFriendList={() => createFriendship(user.user_id, "list")}
+                                addFriendMatrix={() => createFriendship(user.user_id, "matrix")}
+                                addFriendSet={() => createFriendship(user.user_id, "set")}
                             />
                         })
                         : null

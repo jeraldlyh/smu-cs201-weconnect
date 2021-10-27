@@ -8,4 +8,5 @@ import lombok.Getter;
 public class StatusDTO {
     private boolean adjacencyListStatus;
     private boolean adjacencyMatrixStatus;
+    private boolean adjacencySetStatus;
 }

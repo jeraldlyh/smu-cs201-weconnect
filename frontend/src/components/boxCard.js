@@ -1,9 +1,10 @@
-import { Fragment, useState } from "react"
+import { Fragment } from "react"
 
 
-const BoxCard = ({ title, generate, remove, setStatus, setIsLoading, timeTaken, setTimeTaken }) => {
+const BoxCard = ({ title, generate, remove, setStatus, setIsLoading, timeTaken, setTimeTaken, setErrorMessage }) => {
     const generateGraph = async () => {
         try {
+            setErrorMessage("")     // Reset error message
             setIsLoading(true)
             const response = await generate()
             if (response.status === 200) {
@@ -19,6 +20,7 @@ const BoxCard = ({ title, generate, remove, setStatus, setIsLoading, timeTaken, 
 
     const deleteGraph = async () => {
         try {
+            setErrorMessage("")     // Reset error message
             setIsLoading(true)
             const response = await remove()
             if (response.status === 200) {

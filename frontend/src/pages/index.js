@@ -77,7 +77,7 @@ export default function Home() {
             setIsLoading(false)
             if (error.status === 500) {
                 setErrorMessage("Something bad went wrong")
-            } else if (error.message.includes("60000")){
+            } else if (error.message.includes("60000")) {
                 setErrorMessage("The operation took more than 60 seconds")
             }
             console.log(error)
@@ -169,7 +169,12 @@ export default function Home() {
                         {
                             isLoading
                                 ? <PuffLoader color={"white"} size={150} margin={2} />
-                                : null
+                                : <button
+                                    className="w-full rounded-lg py-2 px-4 hover:bg-yellow-400 uppercase text-xl font-medium tracking-wide"
+                                    onClick={getRandomTenFriends}
+                                >
+                                    Find Random Friends
+                                </button>
                         }
                         {
                             errorMessage
@@ -177,12 +182,6 @@ export default function Home() {
                                 : null
                         }
                     </div>
-                    <button
-                        className="w-full rounded-lg py-2 px-4 hover:bg-yellow-400 uppercase text-xl font-medium tracking-wide"
-                        onClick={getRandomTenFriends}
-                    >
-                        Find Random Friends
-                    </button>
                 </div>
             </div>
             <div className="flex flex-wrap justify-around mt-2 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">

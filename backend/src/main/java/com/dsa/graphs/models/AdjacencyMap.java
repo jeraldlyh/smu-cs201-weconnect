@@ -96,13 +96,8 @@ public class AdjacencyMap implements Graph {
     @Override
     public void addVertex(String userId, int index) { }
 
-    // This method is O(n) time complexity where it converts a LinkedList to ArrayList
     public List<String> getNeighbours(String user) {
-        LinkedList<String> neighbours = adjacencyMap.get(user);
-        if (neighbours == null) {
-            return null;
-        }
-        return new ArrayList<>(adjacencyMap.get(user));    // get() method is O(1) time complexity
+        return adjacencyMap.get(user);     // get() method is O(1) time complexity
     }
 
     @Override

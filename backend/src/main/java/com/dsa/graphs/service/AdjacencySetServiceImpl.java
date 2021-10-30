@@ -49,6 +49,7 @@ public class AdjacencySetServiceImpl implements AdjacencySetService {
         long timeTaken = ChronoUnit.MILLIS.between(start, end);
 
         LOGGER.info("------ SUCCESSFULLY CREATED ADJACENCY SET");
+        System.out.println(adjacencySet.getSize());
         AdjacencySetDTO adjacencySetDTO = new AdjacencySetDTO(adjacencySet, timeTaken);
         return adjacencySetDTO;
     }
@@ -113,7 +114,7 @@ public class AdjacencySetServiceImpl implements AdjacencySetService {
                         adjacentVertices.removeAll(fromUserAdjacentVertices);
                         
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + targetUser);
-                        return new FriendSuggestionDTO(nodeService.getListOfNodes(new ArrayList<>(adjacentVertices)), degreeOfRelationship);
+                        return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVertices), degreeOfRelationship);
                     }
 
                     // Check if neighbour has been previously visited to prevent an infinite recursion

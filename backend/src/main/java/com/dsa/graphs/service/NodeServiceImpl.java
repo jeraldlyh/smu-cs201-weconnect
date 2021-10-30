@@ -131,6 +131,17 @@ public class NodeServiceImpl implements NodeService {
         return targetUserFriends;
     }
 
+    @Override
+    public List<User> getListOfNodes(Set<String> userIds) {
+        List<User> targetUserFriends = new ArrayList<>();
+
+        for (String userId: userIds) {
+            targetUserFriends.add(getNode(userId));
+        }
+
+        return targetUserFriends;
+    }
+
     /**
      * This method retrieves 10 random users from the set of nodes
      */

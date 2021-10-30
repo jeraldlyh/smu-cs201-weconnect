@@ -33,7 +33,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
     @Override
     public AdjacencyMatrixDTO createAdjacencyMatrix() {
-        // Check if adjacencyList has been previous created
+        // Check if adjacencyMatrix has been previous created
         if (adjacencyMatrix != null && adjacencyMatrix.getSize() != 0) {
             return new AdjacencyMatrixDTO(adjacencyMatrix, 0);
         }

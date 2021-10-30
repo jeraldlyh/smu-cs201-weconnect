@@ -1,9 +1,9 @@
 import axiosInstance from "src/axios"
 
-export const generateAdjacencyList = () => {
+export const generateAdjacencyMap = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await axiosInstance.get("/adjacency-list")
+            const response = await axiosInstance.get("/adjacency-map")
             resolve(response)
         } catch (error) {
             reject(error)
@@ -11,10 +11,10 @@ export const generateAdjacencyList = () => {
     })
 }
 
-export const deleteAdjacencyList = () => {
+export const deleteAdjacencyMap = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await axiosInstance.delete("/adjacency-list")
+            const response = await axiosInstance.delete("/adjacency-map")
             resolve(response)
         } catch (error) {
             reject(error)

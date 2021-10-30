@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NodeServiceImpl implements NodeService {
-    private static final Logger LOGGER = LogManager.getLogger(AdjacencyListServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(AdjacencyMapServiceImpl.class);
 
     private Set<User> nodes = new HashSet<>();
     private Gson gson;

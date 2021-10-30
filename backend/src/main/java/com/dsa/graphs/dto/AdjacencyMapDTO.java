@@ -1,6 +1,6 @@
 package com.dsa.graphs.dto;
 
-import com.dsa.graphs.models.AdjacencyList;
+import com.dsa.graphs.models.AdjacencyMap;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class AdjacencyListDTO {
-    private AdjacencyList adjacencyList;
+public class AdjacencyMapDTO {
+    private AdjacencyMap adjacencyMap;
     private long timeTaken;
 }

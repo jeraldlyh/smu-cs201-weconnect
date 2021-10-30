@@ -11,8 +11,8 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AdjacencyList implements Graph {
-    private Map<String, LinkedList<String>> adjacencyList = new HashMap<>();
+public class AdjacencyMap implements Graph {
+    private Map<String, LinkedList<String>> adjacencyMap = new HashMap<>();
 
     /**
      * This method is O(|V|) time complexity where it instantiates
@@ -60,7 +60,7 @@ public class AdjacencyList implements Graph {
     }
 
     public void updateLinkedList(String fromUser, String toUser) {
-        LinkedList<String> userFriends = adjacencyList.get(fromUser);
+        LinkedList<String> userFriends = adjacencyMap.get(fromUser);
         if (userFriends != null) {
             // Store a boolean to check if user already exists in the linkedList
             boolean isExist = false;
@@ -89,7 +89,7 @@ public class AdjacencyList implements Graph {
 
     @Override
     public void addVertex(String userId) {
-        adjacencyList.put(userId, new LinkedList<String>());        // put() method is O(1) time complexity
+        adjacencyMap.put(userId, new LinkedList<String>());        // put() method is O(1) time complexity
     }
 
     // Overriden method from Graph interface but is not applicable to this class
@@ -98,32 +98,32 @@ public class AdjacencyList implements Graph {
 
     // This method is O(n) time complexity where it converts a LinkedList to ArrayList
     public List<String> getNeighbours(String user) {
-        LinkedList<String> neighbours = adjacencyList.get(user);
+        LinkedList<String> neighbours = adjacencyMap.get(user);
         if (neighbours == null) {
             return null;
         }
-        return new ArrayList<>(adjacencyList.get(user));    // get() method is O(1) time complexity
+        return new ArrayList<>(adjacencyMap.get(user));    // get() method is O(1) time complexity
     }
 
     @Override
     public int getSize() {
-        return adjacencyList.size();
+        return adjacencyMap.size();
     }
 
     @Override
     public void delete() {
-        adjacencyList.clear();
+        adjacencyMap.clear();
     }
 
-    public Map<String, LinkedList<String>> getAdjacencyList() {
-        return adjacencyList;
+    public Map<String, LinkedList<String>> getAdjacencyMap() {
+        return adjacencyMap;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(); // More optimized way compared to String
 
-        for (Map.Entry<String, LinkedList<String>> user : adjacencyList.entrySet()) {
+        for (Map.Entry<String, LinkedList<String>> user : adjacencyMap.entrySet()) {
             sb.append(user.getKey() + " ==> "); // append() is O(1)
             sb.append(user.getValue() + "\n");
         }

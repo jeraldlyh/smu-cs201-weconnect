@@ -26,14 +26,14 @@ public class AdjacencySetServiceImpl implements AdjacencySetService {
     private AdjacencySet adjacencySet;
     private NodeService nodeService;
 
-    public AdjacencySetServiceImpl(NodeService nodeService, AdjacencySet adjacencyListSet) {
+    public AdjacencySetServiceImpl(NodeService nodeService, AdjacencySet adjacencySet) {
         this.nodeService = nodeService;
-        this.adjacencySet = adjacencyListSet;
+        this.adjacencySet = adjacencySet;
     }
 
     @Override
     public AdjacencySetDTO createAdjacencySet() {
-        // Check if adjacencyList has been previous created
+        // Check if adjacencySet has been previous created
         if (adjacencySet != null && adjacencySet.getSize() != 0) {
             return new AdjacencySetDTO(adjacencySet, 0);
         }

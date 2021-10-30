@@ -90,7 +90,7 @@ public class AdjacencySetServiceImpl implements AdjacencySetService {
 
             if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
 
-                // This loop is O(|V|) time complexity where the worst case is that the Set contains edges to all other users
+                // This loop is O(|E|) time complexity where the worst case is that the Set contains edges to all other users
                 for (String neighbour: adjacentVertices) {
                     // Found the vertex that we're looking for in the graph
                     if (toUser.equals(neighbour)) {
@@ -109,10 +109,10 @@ public class AdjacencySetServiceImpl implements AdjacencySetService {
                         adjacencySet.addEdge(originalUser, toUser);
 
                         // Removes the set difference between user's existing friend and target user's friend
-                        // removeAll() is O(n * m) where ArrayList contains() method is O(n)
+                        // removeAll() is O(|E|) for HashSet where contains() method is O(1)
                         Set<String> fromUserAdjacentVertices = adjacencySet.getNeighbours(originalUser);
                         adjacentVertices.removeAll(fromUserAdjacentVertices);
-                        
+
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + targetUser);
                         return new FriendSuggestionDTO(nodeService.getListOfNodes(adjacentVertices), degreeOfRelationship);
                     }

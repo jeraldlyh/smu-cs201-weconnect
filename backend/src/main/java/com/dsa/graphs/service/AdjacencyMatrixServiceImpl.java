@@ -109,9 +109,6 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
                 if (matrix[userIndex][i] == 1) {
                     // Check if target vertex (i.e. user) has been found
                     if (adjacentUserId.equals(toUser)) {
-
-                        // TODO: Does this method cause the parent method to be O(n^3)?
-
                         // getAdjacentVerticesId() is O(|V|) time complexity
                         List<String> adjacentVerticesId = getAdjacentVerticesId(matrix, i);
                         List<String> fromUserAdjacentVerticesId = getAdjacentVerticesId(matrix, adjacencyMatrix.getIndexByUserId(fromUser));
@@ -126,7 +123,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
                         LOGGER.info("------ FRIENDSHIP FORMED: " + fromUser + " | " + toUser);
                         adjacencyMatrix.addEdge(fromUser, toUser);
 
-                        // getListOfNodes() is O(|V|^2) time complexity
+                        // getListOfNodes() is O(|V|) time complexity
                         return new FriendSuggestionDTO(
                             nodeService.getListOfNodes(adjacentVerticesId), 
                             degreeOfRelationship, 

@@ -50,7 +50,7 @@ public class AdjacencySet implements Graph {
     }
 
     /**
-     * This method is O(|V|) as it has to search if there's a duplicate node
+     * This method is O(1) as add() incurs O(1) time complexity
      */
     @Override
     public void addEdge(String fromUser, String toUser) {

@@ -60,7 +60,7 @@ export default function Home() {
             const response = await addFriends(LOGGED_USER, toUser, graphType)
             setUsers(response.data.friendSuggestions)
 
-            if (graphType === "list") {
+            if (graphType === "map") {
                 setAdjacencyMapStatus(true)
                 setTimeTakenAdjacencyMap(response.data.timeTaken)
             } else if (graphType === "matrix") {
@@ -204,7 +204,7 @@ export default function Home() {
                                 star={user.average_stars}
                                 useful={user.useful}
                                 joined={user.yelping_since}
-                                addFriendList={() => createFriendship(user.user_id, "list")}
+                                addFriendMap={() => createFriendship(user.user_id, "map")}
                                 addFriendMatrix={() => createFriendship(user.user_id, "matrix")}
                                 addFriendSet={() => createFriendship(user.user_id, "set")}
                             />

@@ -6,7 +6,7 @@ import classnames from "classnames"
 import _ from "lodash"
 
 
-const ProfileCard = ({ name, fans, funny, cool, star, useful, joined, addFriendList, addFriendMatrix, addFriendSet }) => {
+const ProfileCard = ({ name, fans, funny, cool, star, useful, joined, addFriendMap, addFriendMatrix, addFriendSet }) => {
     const RANDOM_NUMBER = _.random(0, 5)
 
     const style = classnames({
@@ -60,9 +60,9 @@ const ProfileCard = ({ name, fans, funny, cool, star, useful, joined, addFriendL
                     </div>
                 </div>
                 <div className="flex w-full items-center justify-between space-x-1">
-                    <button className="flex flex-col items-center rounded-lg w-1/2 py-2 px-4 hover:bg-blue-400 uppercase font-medium" onClick={addFriendList}>
+                    <button className="flex flex-col items-center rounded-lg w-1/2 py-2 px-4 hover:bg-blue-400 uppercase font-medium" onClick={addFriendMap}>
                         <span>Add Friend</span>
-                        <span>(List)</span>
+                        <span>(Map)</span>
                     </button>
                     <button className="flex flex-col items-center rounded-lg w-1/2 py-2 px-4 hover:bg-purple-400 uppercase font-medium" onClick={addFriendMatrix}>
                         <span>Add Friend</span>

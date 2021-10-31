@@ -193,9 +193,9 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
     @Override
     public void deleteAdjacencyMatrix() {
         if (adjacencyMatrix != null) {
-            LOGGER.info("------ DELETING ADJACENCY LIST");
+            LOGGER.info("------ DELETING ADJACENCY MATRIX");
             adjacencyMatrix.delete();
-            LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
+            LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY MATRIX");
         }
     }
 }

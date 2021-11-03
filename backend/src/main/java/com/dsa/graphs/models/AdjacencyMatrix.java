@@ -98,7 +98,7 @@ public class AdjacencyMatrix implements Graph {
             for (int i = 0; i < matrix.length; i++) {
                 if (index == i) continue;                       // Skip the edge if the vertex (i.e. user) is connected to itself
                 if (matrix[index][i] == 1) {                    // Append to output if an edge (i.e. relationship) is found
-                    sb.append(" => " + getUserIdByIndex(i));    // TODO: O(n^2) here?
+                    sb.append(" => " + getUserIdByIndex(i));
                 }
             }
             sb.append("\n");

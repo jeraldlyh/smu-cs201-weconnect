@@ -68,7 +68,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     /**
-     * This method costs O(n) time complexity since the worst case is where the user
+     * This method costs O(|V|) time complexity since the worst case is where the user
      * exist at the last element of the set
      * 
      * @param userId String that represents user ID
@@ -88,7 +88,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     /**
-     * This method costs O(n) time complexity since the worst case is where
+     * This method costs O(|V|*|E|) time complexity since the worst case is where
      * an user is friends with all other users (i.e. one vertex contains n edges)
      * 
      * @param userId String that represents user ID
@@ -114,8 +114,8 @@ public class NodeServiceImpl implements NodeService {
     }
 
     /**
-     * This method is O(n^2) time complexity where the worst case is the input list 
-     * contains all edges (i.e. n) and getNode() method is O(n) time complexity
+     * This method is O(|V|*|E|) time complexity where the worst case is the input list 
+     * contains all edges (i.e. n) and getNode() method is O(|V|) time complexity
      * 
      * @param userIds List of userIds
      * @return List of users objects that is represented as nodes
@@ -149,11 +149,9 @@ public class NodeServiceImpl implements NodeService {
     public List<User> getRandomNodes() {
         List<User> randomUsers = new ArrayList<>();
         List<User> userList = new ArrayList<>(nodes);
-        Collections.shuffle(userList);                  // O(n) time complexity where we swap every element with another element
-        int count = 9;
+        Collections.shuffle(userList);                  // O(V) time complexity where we swap every element with another element
 
-        for (int i = 0; i < userList.size(); i++) {
-            if (i == count) break;
+        for (int i = 0; i < 9; i++) {
             randomUsers.add(userList.get(i));
         }
         return randomUsers;

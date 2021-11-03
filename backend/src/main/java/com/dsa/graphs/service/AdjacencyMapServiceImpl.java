@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import com.dsa.graphs.dto.AdjacencyListDTO;
+import com.dsa.graphs.dto.AdjacencyMapDTO;
 import com.dsa.graphs.dto.FriendSuggestionDTO;
-import com.dsa.graphs.models.AdjacencyList;
+import com.dsa.graphs.models.AdjacencyMap;
 import com.dsa.graphs.models.User;
 import com.dsa.graphs.util.Time;
 
@@ -20,45 +20,45 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdjacencyListServiceImpl implements AdjacencyListService {
-    private static final Logger LOGGER = LogManager.getLogger(AdjacencyListServiceImpl.class);
+public class AdjacencyMapServiceImpl implements AdjacencyMapService {
+    private static final Logger LOGGER = LogManager.getLogger(AdjacencyMapServiceImpl.class);
 
-    private AdjacencyList adjacencyList;
+    private AdjacencyMap adjacencyMap;
     private NodeService nodeService;
 
-    public AdjacencyListServiceImpl(NodeService nodeService, AdjacencyList adjacencyList) {
+    public AdjacencyMapServiceImpl(NodeService nodeService, AdjacencyMap adjacencyMap) {
         this.nodeService = nodeService;
-        this.adjacencyList = adjacencyList;
+        this.adjacencyMap = adjacencyMap;
     }
 
     @Override
-    public AdjacencyListDTO createAdjacencyList() {
-        // Check if adjacencyList has been previous created
-        if (adjacencyList != null && adjacencyList.getSize() != 0) {
-            return new AdjacencyListDTO(adjacencyList, 0);
+    public AdjacencyMapDTO createAdjacencyMap() {
+        // Check if adjacencyMap has been previous created
+        if (adjacencyMap != null && adjacencyMap.getSize() != 0) {
+            return new AdjacencyMapDTO(adjacencyMap, 0);
         }
 
-        LOGGER.info("------ STARTING TO CREATE ADJACENCY LIST");
+        LOGGER.info("------ STARTING TO CREATE ADJACENCY MAP");
         Set<User> nodes = nodeService.getNodes();
         LocalDateTime start = LocalDateTime.now();
 
-        adjacencyList.createVertices(nodes);        // O(|V|) time complexity
-        adjacencyList.createEdges(nodes);           // O(|V|) time complexity
+        adjacencyMap.createVertices(nodes);        // O(|V|) time complexity
+        adjacencyMap.createEdges(nodes);           // O(|V|) time complexity
 
         LocalDateTime end = LocalDateTime.now();
         long timeTaken = ChronoUnit.MILLIS.between(start, end);
 
-        LOGGER.info("------ SUCCESSFULLY CREATED ADJACENCY LIST");
-        AdjacencyListDTO adjacencyListDTO = new AdjacencyListDTO(adjacencyList, timeTaken);
-        return adjacencyListDTO;
+        LOGGER.info("------ SUCCESSFULLY CREATED ADJACENCY MAP");
+        AdjacencyMapDTO adjacencyMapDTO = new AdjacencyMapDTO(adjacencyMap, timeTaken);
+        return adjacencyMapDTO;
     }
 
     @Override
-    public AdjacencyList getAdjacencyList(boolean create) {
-        if (create && (adjacencyList == null || adjacencyList.getSize() == 0)) {
-            createAdjacencyList();
+    public AdjacencyMap getAdjacencyMap(boolean create) {
+        if (create && (adjacencyMap == null || adjacencyMap.getSize() == 0)) {
+            createAdjacencyMap();
         }
-        return adjacencyList;
+        return adjacencyMap;
     }
 
     /**
@@ -80,12 +80,12 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
         visited.add(fromUser);
         queue.add(fromUser);
 
-        LOGGER.info("------ STARTING BFS SEARCH FOR ADJACENCY LIST");
+        LOGGER.info("------ STARTING BFS SEARCH FOR ADJACENCY MAP");
 
         while(queue.size() != 0) {
             // Dequeue the vertex from the queue
             String userId = queue.poll();
-            List<String> adjacentVertices = adjacencyList.getNeighbours(userId);
+            List<String> adjacentVertices = adjacencyMap.getNeighbours(userId);
 
             if (adjacentVertices != null && adjacentVertices.size() != 0) {                 // Check if current vertex contains any edges
 
@@ -105,11 +105,11 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
                         // Establish an relationship between the users within BFS so that 
                         // we are able to obtain the updated adjacent nodes
                         LOGGER.info("------ FRIENDSHIP FORMED: " + originalUser + " | " + toUser);
-                        adjacencyList.addEdge(originalUser, toUser);
+                        adjacencyMap.addEdge(originalUser, toUser);
 
                         // Removes the set difference between user's existing friend and target user's friend
                         // removeAll() is O(n * m) where ArrayList contains() method is O(n)
-                        List<String> fromUserAdjacentVertices = adjacencyList.getNeighbours(originalUser);
+                        List<String> fromUserAdjacentVertices = adjacencyMap.getNeighbours(originalUser);
                         adjacentVertices.removeAll(fromUserAdjacentVertices);
                         
                         LOGGER.info("------ SUCCESSFULLY FOUND USER: " + targetUser);
@@ -125,7 +125,7 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
             }
             degreeOfRelationship++;
         }
-        LOGGER.info("------ NO USER FOUND AT THE END OF BFS FOR ADJACENCY LIST");
+        LOGGER.info("------ NO USER FOUND AT THE END OF BFS FOR ADJACENCY MAP");
         return null;
     }
 
@@ -144,11 +144,11 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
      */
     @Override
     public FriendSuggestionDTO getFriendSuggestionsByBfs(String fromUser, String toUser) {
-        createAdjacencyList();
+        createAdjacencyMap();
 
         LocalDateTime start = LocalDateTime.now();
         List<String> visited = new ArrayList<String>();        // Create a set to mark vertices that are visited
-        Map<String, LinkedList<String>> data = adjacencyList.getAdjacencyList();
+        Map<String, LinkedList<String>> data = adjacencyMap.getAdjacencyMap();
         FriendSuggestionDTO result = null;
 
         for (String user: data.keySet()) {
@@ -169,11 +169,11 @@ public class AdjacencyListServiceImpl implements AdjacencyListService {
     }
 
     @Override
-    public void deleteAdjacencyList() {
-        if (adjacencyList != null) {
-            LOGGER.info("------ DELETING ADJACENCY LIST");
-            adjacencyList.delete();
-            LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
+    public void deleteAdjacencyMap() {
+        if (adjacencyMap != null) {
+            LOGGER.info("------ DELETING ADJACENCY MAP");
+            adjacencyMap.delete();
+            LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY MAP");
         }
     }
 }

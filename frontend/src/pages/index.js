@@ -3,7 +3,7 @@ import classnames from "classnames"
 import { useEffect, useState } from "react"
 import BoxCard from "../components/boxCard"
 import ProfileCard from "../components/profileCard"
-import { deleteAdjacencyList, generateAdjacencyList } from "src/actions/adjacencyList"
+import { deleteAdjacencyMap, generateAdjacencyMap } from "src/actions/adjacencyMap"
 import { deleteAdjacencyMatrix, generateAdjacencyMatrix } from "src/actions/adjacencyMatrix"
 import { deleteAdjacencySet, generateAdjacencySet } from "src/actions/adjacencySet"
 import { getStatus } from "src/actions/status"
@@ -12,12 +12,12 @@ import { addFriends, getRandomFriends } from "src/actions/friend"
 
 
 export default function Home() {
-    const [adjacencyListStatus, setAdjacencyListStatus] = useState(false)
+    const [adjacencyMapStatus, setAdjacencyMapStatus] = useState(false)
     const [adjacencyMatrixStatus, setAdjacencyMatrixStatus] = useState(false)
     const [adjacencySetStatus, setAdjacencySetStatus] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [users, setUsers] = useState([])
-    const [timeTakenAdjacencyList, setTimeTakenAdjacencyList] = useState(0)
+    const [timeTakenAdjacencyMap, setTimeTakenAdjacencyMap] = useState(0)
     const [timeTakenAdjacencyMatrix, setTimeTakenAdjacencyMatrix] = useState(0)
     const [timeTakenAdjacencySet, setTimeTakenAdjacencySet] = useState(0)
     const [errorMessage, setErrorMessage] = useState("")
@@ -32,7 +32,7 @@ export default function Home() {
     const getGraphStatus = async () => {
         try {
             const response = await getStatus()
-            setAdjacencyListStatus(response.data.adjacencyListStatus)
+            setAdjacencyMapStatus(response.data.adjacencyMapStatus)
             setAdjacencyMatrixStatus(response.data.adjacencyMatrixStatus)
             setAdjacencySetStatus(response.data.adjacencySetStatus)
         } catch (error) {
@@ -60,9 +60,9 @@ export default function Home() {
             const response = await addFriends(LOGGED_USER, toUser, graphType)
             setUsers(response.data.friendSuggestions)
 
-            if (graphType === "list") {
-                setAdjacencyListStatus(true)
-                setTimeTakenAdjacencyList(response.data.timeTaken)
+            if (graphType === "map") {
+                setAdjacencyMapStatus(true)
+                setTimeTakenAdjacencyMap(response.data.timeTaken)
             } else if (graphType === "matrix") {
                 setAdjacencyMatrixStatus(true)
                 setTimeTakenAdjacencyMatrix(response.data.timeTaken)
@@ -84,10 +84,10 @@ export default function Home() {
         }
     }
 
-    const adjacencyListStatusStyle = classnames({
+    const adjacencyMapStatusStyle = classnames({
         "w-4/5 justify-self-center": true,
-        "bg-green-300": adjacencyListStatus,
-        "bg-red-400": !adjacencyListStatus,
+        "bg-green-300": adjacencyMapStatus,
+        "bg-red-400": !adjacencyMapStatus,
     })
 
     const adjacencyMatrixStatusStyle = classnames({
@@ -116,13 +116,13 @@ export default function Home() {
             <div className="flex border divide-x h-96">
                 <div className="flex flex-col w-1/3 p-3 items-center space-y-3">
                     <BoxCard
-                        title="Adjacency List"
+                        title="Adjacency Map"
                         setIsLoading={setIsLoading}
-                        generate={generateAdjacencyList}
-                        remove={deleteAdjacencyList}
-                        setStatus={setAdjacencyListStatus}
-                        timeTaken={timeTakenAdjacencyList}
-                        setTimeTaken={setTimeTakenAdjacencyList}
+                        generate={generateAdjacencyMap}
+                        remove={deleteAdjacencyMap}
+                        setStatus={setAdjacencyMapStatus}
+                        timeTaken={timeTakenAdjacencyMap}
+                        setTimeTaken={setTimeTakenAdjacencyMap}
                         setErrorMessage={setErrorMessage}
                     />
                 </div>
@@ -158,8 +158,8 @@ export default function Home() {
                     <div className="w-full grid grid-cols-2 gap-y-3 mt-3 uppercase text-center font-semibold">
                         <span className="pb-2 border-b">Status</span>
                         <span className="pb-2 border-b">Indication</span>
-                        <span className="border-r min-w-min">Adjacency List</span>
-                        <span className={adjacencyListStatusStyle} />
+                        <span className="border-r min-w-min">Adjacency Map</span>
+                        <span className={adjacencyMapStatusStyle} />
                         <span className="border-r min-w-min">Adjacency Matrix</span>
                         <span className={adjacencyMatrixStatusStyle} />
                         <span className="border-r min-w-min">Adjacency Set</span>
@@ -204,7 +204,7 @@ export default function Home() {
                                 star={user.average_stars}
                                 useful={user.useful}
                                 joined={user.yelping_since}
-                                addFriendList={() => createFriendship(user.user_id, "list")}
+                                addFriendMap={() => createFriendship(user.user_id, "map")}
                                 addFriendMatrix={() => createFriendship(user.user_id, "matrix")}
                                 addFriendSet={() => createFriendship(user.user_id, "set")}
                             />

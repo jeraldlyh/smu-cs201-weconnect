@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class StatusDTO {
-    private boolean adjacencyListStatus;
+    private boolean adjacencyMapStatus;
     private boolean adjacencyMatrixStatus;
     private boolean adjacencySetStatus;
 }

@@ -50,7 +50,7 @@ public class AdjacencySet implements Graph {
     }
 
     /**
-     * This method is O(|V|) as it has to search if there's a duplicate node
+     * This method is O(1) as add() incurs O(1) time complexity
      */
     @Override
     public void addEdge(String fromUser, String toUser) {
@@ -67,7 +67,7 @@ public class AdjacencySet implements Graph {
     @Override
     public void addVertex(String userId, int index) { }
 
-    // This method is O(n) time complexity where it converts a Set to ArrayList
+    // This method is O(E) time complexity where it converts a Set to ArrayList
     public HashSet<String> getNeighbours(String user) {
         Set<String> neighbours = adjacencySet.get(user);
         if (neighbours == null) {

@@ -12,6 +12,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class AdjacencySetDTO {
-    private AdjacencySet adjacencyList;
+    private AdjacencySet adjacencySet;
     private long timeTaken;
 }

@@ -3,25 +3,25 @@ import moment from "moment"
 import nodes from "./node"
 
 
-export default class AdjacencyList {
+export default class AdjacencyMap {
     constructor() {
-        this.adjacencyList = new Map()
+        this.adjacencyMap = new Map()
     }
 
-    _addNode = (_adjacencyList, user) => {
-        this.adjacencyList.set(user, [])
+    _addNode = (_adjacencyMap, user) => {
+        this.adjacencyMap.set(user, [])
     }
     
     // Bidirectional edge
-    _addEdge = (_adjacencyList, fromUser, toUser) => {
-        this.adjacencyList.get(fromUser).push(toUser)
-        this.adjacencyList.get(toUser).push(fromUser)
+    _addEdge = (_adjacencyMap, fromUser, toUser) => {
+        this.adjacencyMap.get(fromUser).push(toUser)
+        this.adjacencyMap.get(toUser).push(fromUser)
     }
     
-    createAdjacencyList = () => {
+    createAdjacencyMap = () => {
         const startTime = moment(new Date())    // Start timer
     
-        nodes.forEach(node => this._addNode(this.adjacencyList, node))     // Adding nodes into adjacencyList
+        nodes.forEach(node => this._addNode(this.adjacencyMap, node))     // Adding nodes into adjacencyMap
     
         for (var key in data) {
             const userData = data[key]
@@ -29,26 +29,15 @@ export default class AdjacencyList {
     
             // Friends data are combined with a comma
             const userFriends = userData["friends"].split(",")
-            userFriends.forEach(friend => this._addEdge(this.adjacencyList, fromUser, friend))
+            userFriends.forEach(friend => this._addEdge(this.adjacencyMap, fromUser, friend))
         }
 
         const endTime = moment(new Date())      // End timer
-        console.log(this.adjacencyList.size)
+        console.log(this.adjacencyMap.size)
         return moment.duration(endTime.diff(startTime))
     }
 
-    getAdjacencyList = () => {
-        return this.adjacencyList
-    }
-}
-
-export const loadData = () => {
-    var a = 1
-    for (var i in data) {
-        console.log(data[i])
-        a += 1
-        if (a == 5) {
-            break
-        }
+    getAdjacencyMap = () => {
+        return this.adjacencyMap
     }
 }

@@ -33,7 +33,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
 
     @Override
     public AdjacencyMatrixDTO createAdjacencyMatrix() {
-        // Check if adjacencyList has been previous created
+        // Check if adjacencyMatrix has been previous created
         if (adjacencyMatrix != null && adjacencyMatrix.getSize() != 0) {
             return new AdjacencyMatrixDTO(adjacencyMatrix, 0);
         }
@@ -109,9 +109,6 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
                 if (matrix[userIndex][i] == 1) {
                     // Check if target vertex (i.e. user) has been found
                     if (adjacentUserId.equals(toUser)) {
-
-                        // TODO: Does this method cause the parent method to be O(n^3)?
-
                         // getAdjacentVerticesId() is O(|V|) time complexity
                         List<String> adjacentVerticesId = getAdjacentVerticesId(matrix, i);
                         List<String> fromUserAdjacentVerticesId = getAdjacentVerticesId(matrix, adjacencyMatrix.getIndexByUserId(fromUser));
@@ -126,7 +123,7 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
                         LOGGER.info("------ FRIENDSHIP FORMED: " + fromUser + " | " + toUser);
                         adjacencyMatrix.addEdge(fromUser, toUser);
 
-                        // getListOfNodes() is O(|V|^2) time complexity
+                        // getListOfNodes() is O(|V|) time complexity
                         return new FriendSuggestionDTO(
                             nodeService.getListOfNodes(adjacentVerticesId), 
                             degreeOfRelationship, 
@@ -196,9 +193,9 @@ public class AdjacencyMatrixServiceImpl implements AdjacencyMatrixService {
     @Override
     public void deleteAdjacencyMatrix() {
         if (adjacencyMatrix != null) {
-            LOGGER.info("------ DELETING ADJACENCY LIST");
+            LOGGER.info("------ DELETING ADJACENCY MATRIX");
             adjacencyMatrix.delete();
-            LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY LIST");
+            LOGGER.info("------ SUCCESSFULLY DELETED ADJACENCY MATRIX");
         }
     }
 }
